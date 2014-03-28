@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.rivetlogic.tout.model.ToutUserStatus">
+		<field name="userId" type="long" />
+		<field name="articleId" type="long" />
+		<field name="toutDismissed" type="boolean" />
+		<field name="toutSeen" type="boolean" />
+		<field name="reminderDate" type="Date" />
+	</model>
+</model-hints>

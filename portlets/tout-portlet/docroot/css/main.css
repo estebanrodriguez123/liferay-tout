@@ -1,0 +1,72 @@
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+ 
+.clearfix {
+    display: inline-block;
+}
+ 
+html[xmlns] .clearfix {
+    display: block;
+}
+ 
+* html .clearfix {
+    height: 1%;
+}
+
+html.aui-dialog-iframe-root-node {
+	overflow:hidden;
+}
+
+.tout-content {
+	overflow: auto;
+}
+
+.tout-buttons .aui-field-choice .aui-field-content {
+    margin-bottom: 1em;
+    overflow: hidden;
+}
+ 
+.tout-buttons input.aui-button-input {
+    width: 7em;
+    margin-right: 1em;
+}
+
+.tout-buttons .btn {
+    width: 30%;
+    float: left;
+    margin: 0 8px 0 0;
+    padding: 4px 12px;
+    font-size: 14px;
+}
+
+.tout-selected-button{
+    background-color: #50A2F5;
+    color: #FFFFFF;
+}
+
+.tout-portlet .fieldset  {
+    margin-top: 20px;
+}
+
+.tout-validator-alert {
+    color: #B50303;
+}
+
+.tout-control-panel{
+    width: 50%;
+}
+
+div.tout-content-iframe .modal-content .dialog-iframe-node{
+	overflow: hidden;
+}
+
+div.tout-buttons {
+    margin: 0 auto;
+    width: 70%;
+}

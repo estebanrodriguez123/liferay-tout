@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.1.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_1_0.dtd">
+<service-builder package-path="com.rivetlogic.tout">
+    <author>ronny.vargas</author>
+	<namespace>rivetlogic_tout</namespace>
+
+    <entity name="ToutUserStatus" local-service="true" remote-service="false" human-name="Tout Portlet Status by User">
+        <!--not by config ID, there is just one global config always-->
+        <!--no company or group, this fuctionality is global-->
+        <column name="userId" type="long" primary="true"/>
+        <column name="articleId" type="long"  />
+        <column name="toutDismissed" type="boolean" />
+        <column name="toutSeen" type="boolean" />
+        <column name="reminderDate" type="Date"  />
+    </entity>
+
+</service-builder>
