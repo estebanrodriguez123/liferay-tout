@@ -54,4 +54,5 @@ public class ToutPortletConstants {
     public static final String ERROR_STORING_PREFERENCES = "tout-error-storing-preferences";
     
     public static final int TABLE_NUM_ROWS = 10;
+    public static final int ONE_ROW = 1;
 }

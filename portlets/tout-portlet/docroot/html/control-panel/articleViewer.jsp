@@ -16,8 +16,6 @@
  */
 --%>
 
-<%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
-
 <%@include file="/html/init.jsp" %>
 
 <div id="${pns}articleViewer" class="tout-article-viewer">
