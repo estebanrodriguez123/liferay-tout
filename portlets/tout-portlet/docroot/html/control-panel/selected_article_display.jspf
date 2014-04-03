@@ -22,8 +22,8 @@
     <portlet:param name="<%=ToutPortletConstants.ATTR_TOUT_ARTICLE_GROUP_ID%>" value="${selectedArticleGroup.groupId}"/>
 </portlet:renderURL>
 
-<liferay-ui:search-container delta="1" emptyResultsMessage="empty-articles-message">
-	<liferay-ui:search-container-results total="1" results='<%=Arrays.asList("-")%>' />
+<liferay-ui:search-container delta="<%=ToutPortletConstants.ONE_ROW%>" emptyResultsMessage="empty-articles-message">
+	<liferay-ui:search-container-results total="<%=ToutPortletConstants.ONE_ROW%>" results='<%=Arrays.asList(StringPool.DASH)%>' />
 	<liferay-ui:search-container-row className="String">
 		<liferay-ui:search-container-column-text name="article-group-name"
 			value="${selectedArticleGroup.descriptiveName}" />
