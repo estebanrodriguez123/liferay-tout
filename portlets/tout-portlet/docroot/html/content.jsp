@@ -18,19 +18,24 @@
 
 <%@include file="/html/init.jsp" %>
 
+<% String toutId = request.getAttribute(ToutPortletConstants.ATTR_TOUT_ID).toString();%>
+
 <portlet:resourceURL var="dismissedURL">
 	<portlet:param name="<%=ToutPortletConstants.ATTR_TOUT_ACTION%>" value="<%= UserActionsEnum.DISMISSED.name() %>"/>
 	<portlet:param name="<%=ToutPortletConstants.ATTR_TOUT_SHOW_ARTICLE_ID%>" value="${article.id}"/>
+	<portlet:param name="<%=ToutPortletConstants.ATTR_TOUT_ID%>" value="<%=toutId%>"/>
 </portlet:resourceURL>
 
 <portlet:resourceURL var="remindLaterURL">
 	<portlet:param name="<%=ToutPortletConstants.ATTR_TOUT_ACTION%>" value="<%= UserActionsEnum.REMINDLATER.name() %>"/>
 	<portlet:param name="<%=ToutPortletConstants.ATTR_TOUT_SHOW_ARTICLE_ID%>" value="${article.id}"/>
+	<portlet:param name="<%=ToutPortletConstants.ATTR_TOUT_ID%>" value="<%=toutId%>"/>
 </portlet:resourceURL>
 
 <portlet:resourceURL var="learnMoreURL">
     <portlet:param name="<%=ToutPortletConstants.ATTR_TOUT_ACTION%>" value="<%= UserActionsEnum.REVIEWED.name() %>"/>
     <portlet:param name="<%=ToutPortletConstants.ATTR_TOUT_SHOW_ARTICLE_ID%>" value="${article.id}"/>
+    <portlet:param name="<%=ToutPortletConstants.ATTR_TOUT_ID%>" value="<%=toutId%>"/>
 </portlet:resourceURL>
 
 <div id="${pns}ToutCtn" class="tout-ctn">

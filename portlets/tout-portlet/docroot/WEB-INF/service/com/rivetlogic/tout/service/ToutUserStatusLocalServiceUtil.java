@@ -55,27 +55,27 @@ public class ToutUserStatusLocalServiceUtil {
 	/**
 	* Creates a new Tout Portlet Status by User with the primary key. Does not add the Tout Portlet Status by User to the database.
 	*
-	* @param userId the primary key for the new Tout Portlet Status by User
+	* @param toutUserStatusPK the primary key for the new Tout Portlet Status by User
 	* @return the new Tout Portlet Status by User
 	*/
 	public static com.rivetlogic.tout.model.ToutUserStatus createToutUserStatus(
-		long userId) {
-		return getService().createToutUserStatus(userId);
+		com.rivetlogic.tout.service.persistence.ToutUserStatusPK toutUserStatusPK) {
+		return getService().createToutUserStatus(toutUserStatusPK);
 	}
 
 	/**
 	* Deletes the Tout Portlet Status by User with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param userId the primary key of the Tout Portlet Status by User
+	* @param toutUserStatusPK the primary key of the Tout Portlet Status by User
 	* @return the Tout Portlet Status by User that was removed
 	* @throws PortalException if a Tout Portlet Status by User with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public static com.rivetlogic.tout.model.ToutUserStatus deleteToutUserStatus(
-		long userId)
+		com.rivetlogic.tout.service.persistence.ToutUserStatusPK toutUserStatusPK)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		return getService().deleteToutUserStatus(userId);
+		return getService().deleteToutUserStatus(toutUserStatusPK);
 	}
 
 	/**
@@ -182,23 +182,24 @@ public class ToutUserStatusLocalServiceUtil {
 	}
 
 	public static com.rivetlogic.tout.model.ToutUserStatus fetchToutUserStatus(
-		long userId) throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().fetchToutUserStatus(userId);
+		com.rivetlogic.tout.service.persistence.ToutUserStatusPK toutUserStatusPK)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().fetchToutUserStatus(toutUserStatusPK);
 	}
 
 	/**
 	* Returns the Tout Portlet Status by User with the primary key.
 	*
-	* @param userId the primary key of the Tout Portlet Status by User
+	* @param toutUserStatusPK the primary key of the Tout Portlet Status by User
 	* @return the Tout Portlet Status by User
 	* @throws PortalException if a Tout Portlet Status by User with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public static com.rivetlogic.tout.model.ToutUserStatus getToutUserStatus(
-		long userId)
+		com.rivetlogic.tout.service.persistence.ToutUserStatusPK toutUserStatusPK)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		return getService().getToutUserStatus(userId);
+		return getService().getToutUserStatus(toutUserStatusPK);
 	}
 
 	public static com.liferay.portal.model.PersistedModel getPersistedModel(

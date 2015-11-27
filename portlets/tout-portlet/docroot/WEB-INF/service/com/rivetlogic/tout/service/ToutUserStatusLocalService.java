@@ -16,6 +16,7 @@ package com.rivetlogic.tout.service;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -52,6 +53,7 @@ public interface ToutUserStatusLocalService extends BaseLocalService,
 	* @return the Tout Portlet Status by User that was added
 	* @throws SystemException if a system exception occurred
 	*/
+	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.REINDEX)
 	public com.rivetlogic.tout.model.ToutUserStatus addToutUserStatus(
 		com.rivetlogic.tout.model.ToutUserStatus toutUserStatus)
 		throws com.liferay.portal.kernel.exception.SystemException;
@@ -59,22 +61,23 @@ public interface ToutUserStatusLocalService extends BaseLocalService,
 	/**
 	* Creates a new Tout Portlet Status by User with the primary key. Does not add the Tout Portlet Status by User to the database.
 	*
-	* @param userId the primary key for the new Tout Portlet Status by User
+	* @param toutUserStatusPK the primary key for the new Tout Portlet Status by User
 	* @return the new Tout Portlet Status by User
 	*/
 	public com.rivetlogic.tout.model.ToutUserStatus createToutUserStatus(
-		long userId);
+		com.rivetlogic.tout.service.persistence.ToutUserStatusPK toutUserStatusPK);
 
 	/**
 	* Deletes the Tout Portlet Status by User with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param userId the primary key of the Tout Portlet Status by User
+	* @param toutUserStatusPK the primary key of the Tout Portlet Status by User
 	* @return the Tout Portlet Status by User that was removed
 	* @throws PortalException if a Tout Portlet Status by User with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
+	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.DELETE)
 	public com.rivetlogic.tout.model.ToutUserStatus deleteToutUserStatus(
-		long userId)
+		com.rivetlogic.tout.service.persistence.ToutUserStatusPK toutUserStatusPK)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
 
@@ -85,6 +88,7 @@ public interface ToutUserStatusLocalService extends BaseLocalService,
 	* @return the Tout Portlet Status by User that was removed
 	* @throws SystemException if a system exception occurred
 	*/
+	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.DELETE)
 	public com.rivetlogic.tout.model.ToutUserStatus deleteToutUserStatus(
 		com.rivetlogic.tout.model.ToutUserStatus toutUserStatus)
 		throws com.liferay.portal.kernel.exception.SystemException;
@@ -168,19 +172,20 @@ public interface ToutUserStatusLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.rivetlogic.tout.model.ToutUserStatus fetchToutUserStatus(
-		long userId) throws com.liferay.portal.kernel.exception.SystemException;
+		com.rivetlogic.tout.service.persistence.ToutUserStatusPK toutUserStatusPK)
+		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Returns the Tout Portlet Status by User with the primary key.
 	*
-	* @param userId the primary key of the Tout Portlet Status by User
+	* @param toutUserStatusPK the primary key of the Tout Portlet Status by User
 	* @return the Tout Portlet Status by User
 	* @throws PortalException if a Tout Portlet Status by User with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public com.rivetlogic.tout.model.ToutUserStatus getToutUserStatus(
-		long userId)
+		com.rivetlogic.tout.service.persistence.ToutUserStatusPK toutUserStatusPK)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
 
@@ -225,6 +230,7 @@ public interface ToutUserStatusLocalService extends BaseLocalService,
 	* @return the Tout Portlet Status by User that was updated
 	* @throws SystemException if a system exception occurred
 	*/
+	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.REINDEX)
 	public com.rivetlogic.tout.model.ToutUserStatus updateToutUserStatus(
 		com.rivetlogic.tout.model.ToutUserStatus toutUserStatus)
 		throws com.liferay.portal.kernel.exception.SystemException;

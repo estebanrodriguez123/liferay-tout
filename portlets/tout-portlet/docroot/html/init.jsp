@@ -36,7 +36,9 @@
 <%@ page import="com.liferay.portal.kernel.dao.orm.QueryUtil" %>
 <%@ page import="com.liferay.portal.util.PortalUtil" %>
 <%@ page import="com.liferay.portal.kernel.util.StringPool" %>
+<%@ page import="com.liferay.portal.kernel.dao.search.ResultRow" %>
 <%@ page import="com.liferay.portal.service.GroupLocalServiceUtil" %>
+<%@ page import="com.liferay.portal.service.LayoutLocalServiceUtil" %>
 <%@ page import="com.liferay.portal.model.Group" %>
 <%@ page import="com.liferay.portal.model.Layout"%>
 <%@ page import="com.liferay.portal.model.GroupConstants" %>
@@ -44,12 +46,20 @@
 <%@ page import="com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil" %>
 <%@ page import="com.liferay.portlet.journal.model.JournalArticleConstants" %>
 <%@ page import="com.liferay.portal.kernel.workflow.WorkflowConstants" %>
+<%@ page import="com.liferay.portal.kernel.util.StringUtil" %>
+<%@ page import="com.liferay.portal.kernel.util.ArrayUtil" %>
 <%@ page import="com.rivetlogic.tout.portlet.ToutPortletConstants"%>
 <%@ page import="com.rivetlogic.tout.util.UserActionsEnum"%>
 
 <%@ page import="javax.portlet.PortletURL" %>
 <%@ page import="java.util.Arrays" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.HashSet" %>
+<%@ page import="java.util.ArrayList" %>
+
+<%@page import="com.rivetlogic.tout.config.ToutConfigUtil"%>
+<%@ page import="com.rivetlogic.tout.config.ToutConfig" %>
 
 <portlet:defineObjects />
 <liferay-theme:defineObjects />

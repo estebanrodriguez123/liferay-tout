@@ -3,6 +3,7 @@
 <model-hints>
 	<model name="com.rivetlogic.tout.model.ToutUserStatus">
 		<field name="userId" type="long" />
+		<field name="toutConfigId" type="String" />
 		<field name="articleId" type="long" />
 		<field name="toutDismissed" type="boolean" />
 		<field name="toutSeen" type="boolean" />

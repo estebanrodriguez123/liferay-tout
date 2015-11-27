@@ -8,6 +8,7 @@
         <!--not by config ID, there is just one global config always-->
         <!--no company or group, this fuctionality is global-->
         <column name="userId" type="long" primary="true"/>
+        <column name="toutConfigId" type="String" primary="true"/>
         <column name="articleId" type="long"  />
         <column name="toutDismissed" type="boolean" />
         <column name="toutSeen" type="boolean" />

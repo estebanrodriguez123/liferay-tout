@@ -54,8 +54,6 @@
 <%
 
  for (Group group : availableGroups) {
-
-     if (group.getGroupId() != selectedGroup){
          PortletURL changeGroupUrl = renderResponse.createRenderURL();
          changeGroupUrl.setParameter(ToutPortletConstants.JSP_PAGE, ToutPortletConstants.TEMPLATE_ARTICLE_SELECTOR);
          changeGroupUrl.setParameter(ToutPortletConstants.ATTR_GROUP_FILTER, String.valueOf(group.getGroupId() ));
@@ -68,7 +66,6 @@
          url="<%= changeGroupUrl.toString() %>"
      />
 <%
-     }
   }
 %>
 </liferay-ui:icon-menu>

@@ -15,6 +15,7 @@
 package com.rivetlogic.tout.model.impl;
 
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
 import com.rivetlogic.tout.model.ToutUserStatus;
@@ -37,10 +38,12 @@ public class ToutUserStatusCacheModel implements CacheModel<ToutUserStatus>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{userId=");
 		sb.append(userId);
+		sb.append(", toutConfigId=");
+		sb.append(toutConfigId);
 		sb.append(", articleId=");
 		sb.append(articleId);
 		sb.append(", toutDismissed=");
@@ -59,6 +62,14 @@ public class ToutUserStatusCacheModel implements CacheModel<ToutUserStatus>,
 		ToutUserStatusImpl toutUserStatusImpl = new ToutUserStatusImpl();
 
 		toutUserStatusImpl.setUserId(userId);
+
+		if (toutConfigId == null) {
+			toutUserStatusImpl.setToutConfigId(StringPool.BLANK);
+		}
+		else {
+			toutUserStatusImpl.setToutConfigId(toutConfigId);
+		}
+
 		toutUserStatusImpl.setArticleId(articleId);
 		toutUserStatusImpl.setToutDismissed(toutDismissed);
 		toutUserStatusImpl.setToutSeen(toutSeen);
@@ -78,6 +89,7 @@ public class ToutUserStatusCacheModel implements CacheModel<ToutUserStatus>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		userId = objectInput.readLong();
+		toutConfigId = objectInput.readUTF();
 		articleId = objectInput.readLong();
 		toutDismissed = objectInput.readBoolean();
 		toutSeen = objectInput.readBoolean();
@@ -88,6 +100,14 @@ public class ToutUserStatusCacheModel implements CacheModel<ToutUserStatus>,
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(userId);
+
+		if (toutConfigId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(toutConfigId);
+		}
+
 		objectOutput.writeLong(articleId);
 		objectOutput.writeBoolean(toutDismissed);
 		objectOutput.writeBoolean(toutSeen);
@@ -95,6 +115,7 @@ public class ToutUserStatusCacheModel implements CacheModel<ToutUserStatus>,
 	}
 
 	public long userId;
+	public String toutConfigId;
 	public long articleId;
 	public boolean toutDismissed;
 	public boolean toutSeen;

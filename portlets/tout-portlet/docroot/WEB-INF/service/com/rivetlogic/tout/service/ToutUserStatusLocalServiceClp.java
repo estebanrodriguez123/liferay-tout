@@ -33,11 +33,15 @@ public class ToutUserStatusLocalServiceClp implements ToutUserStatusLocalService
 
 		_methodName1 = "createToutUserStatus";
 
-		_methodParameterTypes1 = new String[] { "long" };
+		_methodParameterTypes1 = new String[] {
+				"com.rivetlogic.tout.service.persistence.ToutUserStatusPK"
+			};
 
 		_methodName2 = "deleteToutUserStatus";
 
-		_methodParameterTypes2 = new String[] { "long" };
+		_methodParameterTypes2 = new String[] {
+				"com.rivetlogic.tout.service.persistence.ToutUserStatusPK"
+			};
 
 		_methodName3 = "deleteToutUserStatus";
 
@@ -83,11 +87,15 @@ public class ToutUserStatusLocalServiceClp implements ToutUserStatusLocalService
 
 		_methodName10 = "fetchToutUserStatus";
 
-		_methodParameterTypes10 = new String[] { "long" };
+		_methodParameterTypes10 = new String[] {
+				"com.rivetlogic.tout.service.persistence.ToutUserStatusPK"
+			};
 
 		_methodName11 = "getToutUserStatus";
 
-		_methodParameterTypes11 = new String[] { "long" };
+		_methodParameterTypes11 = new String[] {
+				"com.rivetlogic.tout.service.persistence.ToutUserStatusPK"
+			};
 
 		_methodName12 = "getPersistedModel";
 
@@ -148,12 +156,14 @@ public class ToutUserStatusLocalServiceClp implements ToutUserStatusLocalService
 
 	@Override
 	public com.rivetlogic.tout.model.ToutUserStatus createToutUserStatus(
-		long userId) {
+		com.rivetlogic.tout.service.persistence.ToutUserStatusPK toutUserStatusPK) {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName1,
-					_methodParameterTypes1, new Object[] { userId });
+					_methodParameterTypes1,
+					new Object[] { ClpSerializer.translateInput(
+							toutUserStatusPK) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -172,14 +182,16 @@ public class ToutUserStatusLocalServiceClp implements ToutUserStatusLocalService
 
 	@Override
 	public com.rivetlogic.tout.model.ToutUserStatus deleteToutUserStatus(
-		long userId)
+		com.rivetlogic.tout.service.persistence.ToutUserStatusPK toutUserStatusPK)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName2,
-					_methodParameterTypes2, new Object[] { userId });
+					_methodParameterTypes2,
+					new Object[] { ClpSerializer.translateInput(
+							toutUserStatusPK) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -433,12 +445,15 @@ public class ToutUserStatusLocalServiceClp implements ToutUserStatusLocalService
 
 	@Override
 	public com.rivetlogic.tout.model.ToutUserStatus fetchToutUserStatus(
-		long userId) throws com.liferay.portal.kernel.exception.SystemException {
+		com.rivetlogic.tout.service.persistence.ToutUserStatusPK toutUserStatusPK)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName10,
-					_methodParameterTypes10, new Object[] { userId });
+					_methodParameterTypes10,
+					new Object[] { ClpSerializer.translateInput(
+							toutUserStatusPK) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -461,14 +476,16 @@ public class ToutUserStatusLocalServiceClp implements ToutUserStatusLocalService
 
 	@Override
 	public com.rivetlogic.tout.model.ToutUserStatus getToutUserStatus(
-		long userId)
+		com.rivetlogic.tout.service.persistence.ToutUserStatusPK toutUserStatusPK)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName11,
-					_methodParameterTypes11, new Object[] { userId });
+					_methodParameterTypes11,
+					new Object[] { ClpSerializer.translateInput(
+							toutUserStatusPK) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);

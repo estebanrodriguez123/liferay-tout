@@ -33,6 +33,7 @@ import com.liferay.portal.service.persistence.UserPersistence;
 
 import com.rivetlogic.tout.model.ToutUserStatus;
 import com.rivetlogic.tout.service.ToutUserStatusLocalService;
+import com.rivetlogic.tout.service.persistence.ToutUserStatusPK;
 import com.rivetlogic.tout.service.persistence.ToutUserStatusPersistence;
 
 import java.io.Serializable;
@@ -81,27 +82,29 @@ public abstract class ToutUserStatusLocalServiceBaseImpl
 	/**
 	 * Creates a new Tout Portlet Status by User with the primary key. Does not add the Tout Portlet Status by User to the database.
 	 *
-	 * @param userId the primary key for the new Tout Portlet Status by User
+	 * @param toutUserStatusPK the primary key for the new Tout Portlet Status by User
 	 * @return the new Tout Portlet Status by User
 	 */
 	@Override
-	public ToutUserStatus createToutUserStatus(long userId) {
-		return toutUserStatusPersistence.create(userId);
+	public ToutUserStatus createToutUserStatus(
+		ToutUserStatusPK toutUserStatusPK) {
+		return toutUserStatusPersistence.create(toutUserStatusPK);
 	}
 
 	/**
 	 * Deletes the Tout Portlet Status by User with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param userId the primary key of the Tout Portlet Status by User
+	 * @param toutUserStatusPK the primary key of the Tout Portlet Status by User
 	 * @return the Tout Portlet Status by User that was removed
 	 * @throws PortalException if a Tout Portlet Status by User with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public ToutUserStatus deleteToutUserStatus(long userId)
+	public ToutUserStatus deleteToutUserStatus(
+		ToutUserStatusPK toutUserStatusPK)
 		throws PortalException, SystemException {
-		return toutUserStatusPersistence.remove(userId);
+		return toutUserStatusPersistence.remove(toutUserStatusPK);
 	}
 
 	/**
@@ -212,23 +215,23 @@ public abstract class ToutUserStatusLocalServiceBaseImpl
 	}
 
 	@Override
-	public ToutUserStatus fetchToutUserStatus(long userId)
+	public ToutUserStatus fetchToutUserStatus(ToutUserStatusPK toutUserStatusPK)
 		throws SystemException {
-		return toutUserStatusPersistence.fetchByPrimaryKey(userId);
+		return toutUserStatusPersistence.fetchByPrimaryKey(toutUserStatusPK);
 	}
 
 	/**
 	 * Returns the Tout Portlet Status by User with the primary key.
 	 *
-	 * @param userId the primary key of the Tout Portlet Status by User
+	 * @param toutUserStatusPK the primary key of the Tout Portlet Status by User
 	 * @return the Tout Portlet Status by User
 	 * @throws PortalException if a Tout Portlet Status by User with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public ToutUserStatus getToutUserStatus(long userId)
+	public ToutUserStatus getToutUserStatus(ToutUserStatusPK toutUserStatusPK)
 		throws PortalException, SystemException {
-		return toutUserStatusPersistence.findByPrimaryKey(userId);
+		return toutUserStatusPersistence.findByPrimaryKey(toutUserStatusPK);
 	}
 
 	@Override

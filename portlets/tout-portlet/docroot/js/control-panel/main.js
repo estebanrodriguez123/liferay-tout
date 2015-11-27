@@ -53,7 +53,68 @@ AUI.add('tout-config', function(A, NAME) {
         var title = Liferay.Language.get('tout-select-article');
         ns.drawPopUpWindow(title, url);
     };
-
+    
+    ns.displayMatchingPages = function(e, portletId, cmd) {
+        var matchingPagesPanel = document.getElementById('matching-pages-panel');
+        matchingPagesPanel.style.display = 'none';
+        var matchingPagesList = matchingPagesPanel.getElementsByTagName('ul')[0];
+        matchingPagesList.innerHTML = '';
+    	if(!A.one('#'+pns+'tout-pagesRegexInput').val()){
+    		alert('Enter a regex value.');
+    		return;
+    	}
+    	var selectedSites = A.all('.site:selected');
+        var selectedSitesIdsArr = [];
+        selectedSites.each(function(node) {
+    		selectedSitesIdsArr.push(node.get('value'));
+        });
+        var resourceURL = Liferay.PortletURL.createResourceURL();
+        resourceURL.setPortletId(portletId);
+        resourceURL.setParameter('cmd', cmd);
+        resourceURL.setParameter('sites', selectedSitesIdsArr.join(','));
+        resourceURL.setParameter('pageRegex', A.one('#'+pns+'tout-pagesRegexInput').val());
+        A.io.request(resourceURL.toString(), {
+          method: 'GET',
+          dataType: 'json',
+    	  on: {
+    	   success: function() {
+    		   var matchingPagesArr = this.get('responseData');
+			   for(var i = 0; i < matchingPagesArr.length; i++){
+				   var node = document.createElement('LI');
+				   var textnode = document.createTextNode(matchingPagesArr[i]);
+				   node.appendChild(textnode);
+				   matchingPagesList.appendChild(node); 
+			   }
+			   matchingPagesPanel.style.display = '';
+			   document.getElementById('tout-pages-error-msg').style.display = 'none';
+    	   },
+    	   failure: function(data) {
+    		   document.getElementById('tout-pages-error-msg').innerHTML = data.details[1].responseText;
+    		   document.getElementById('tout-pages-error-msg').style.display = '';
+    		   matchingPagesPanel.style.display = 'none';
+    	   }
+    	  }
+        });
+    };
+    
+    ns.handleFormSubmit = function(){
+    	var checkboxNode = A.one('#'+pns+"toutEnabled");
+        if (checkboxNode) {
+            var checkboxid = checkboxNode.getAttribute("id");
+	    	var enabledCheck = A.one("#" + checkboxid).val();
+	    	if(enabledCheck == "false"){
+	            var inputs = A.all('#toutValuesPanel input');
+	            var button = A.all('#toutValuesPanel button');
+	            var select = A.all('#toutValuesPanel select');
+                button.removeAttribute("disabled");
+                inputs.each(function(node) {
+                    node.removeAttribute("disabled");
+                });
+                select.removeAttribute("disabled");
+	    	}
+        }
+    };
+    
     ns.handleSelectAction = function(e, portletId, containerId) {
         var buttonNode = e.currentTarget;
         var buttonId = buttonNode.getAttribute("id").split('__');
@@ -128,16 +189,19 @@ AUI.add('tout-config', function(A, NAME) {
 
             var inputs = A.all('#toutValuesPanel input');
             var button = A.all('#toutValuesPanel button');
+            var select = A.all('#toutValuesPanel select');
             if (enabledCheck == "true") {
                 button.removeAttribute("disabled");
                 inputs.each(function(node) {
                     node.removeAttribute("disabled");
                 });
+                select.removeAttribute("disabled");
             } else {
                 button.setAttribute("disabled", true);
                 inputs.each(function(node) {
                     node.setAttribute("disabled", true);
                 });
+                select.setAttribute("disabled", true);
 
             }
         }

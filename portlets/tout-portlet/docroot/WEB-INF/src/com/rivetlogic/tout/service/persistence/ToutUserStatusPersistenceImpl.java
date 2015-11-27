@@ -170,15 +170,15 @@ public class ToutUserStatusPersistenceImpl extends BasePersistenceImpl<ToutUserS
 	/**
 	 * Creates a new Tout Portlet Status by User with the primary key. Does not add the Tout Portlet Status by User to the database.
 	 *
-	 * @param userId the primary key for the new Tout Portlet Status by User
+	 * @param toutUserStatusPK the primary key for the new Tout Portlet Status by User
 	 * @return the new Tout Portlet Status by User
 	 */
 	@Override
-	public ToutUserStatus create(long userId) {
+	public ToutUserStatus create(ToutUserStatusPK toutUserStatusPK) {
 		ToutUserStatus toutUserStatus = new ToutUserStatusImpl();
 
 		toutUserStatus.setNew(true);
-		toutUserStatus.setPrimaryKey(userId);
+		toutUserStatus.setPrimaryKey(toutUserStatusPK);
 
 		return toutUserStatus;
 	}
@@ -186,15 +186,15 @@ public class ToutUserStatusPersistenceImpl extends BasePersistenceImpl<ToutUserS
 	/**
 	 * Removes the Tout Portlet Status by User with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param userId the primary key of the Tout Portlet Status by User
+	 * @param toutUserStatusPK the primary key of the Tout Portlet Status by User
 	 * @return the Tout Portlet Status by User that was removed
 	 * @throws com.rivetlogic.tout.NoSuchToutUserStatusException if a Tout Portlet Status by User with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public ToutUserStatus remove(long userId)
+	public ToutUserStatus remove(ToutUserStatusPK toutUserStatusPK)
 		throws NoSuchToutUserStatusException, SystemException {
-		return remove((Serializable)userId);
+		return remove((Serializable)toutUserStatusPK);
 	}
 
 	/**
@@ -324,6 +324,7 @@ public class ToutUserStatusPersistenceImpl extends BasePersistenceImpl<ToutUserS
 		toutUserStatusImpl.setPrimaryKey(toutUserStatus.getPrimaryKey());
 
 		toutUserStatusImpl.setUserId(toutUserStatus.getUserId());
+		toutUserStatusImpl.setToutConfigId(toutUserStatus.getToutConfigId());
 		toutUserStatusImpl.setArticleId(toutUserStatus.getArticleId());
 		toutUserStatusImpl.setToutDismissed(toutUserStatus.isToutDismissed());
 		toutUserStatusImpl.setToutSeen(toutUserStatus.isToutSeen());
@@ -360,15 +361,15 @@ public class ToutUserStatusPersistenceImpl extends BasePersistenceImpl<ToutUserS
 	/**
 	 * Returns the Tout Portlet Status by User with the primary key or throws a {@link com.rivetlogic.tout.NoSuchToutUserStatusException} if it could not be found.
 	 *
-	 * @param userId the primary key of the Tout Portlet Status by User
+	 * @param toutUserStatusPK the primary key of the Tout Portlet Status by User
 	 * @return the Tout Portlet Status by User
 	 * @throws com.rivetlogic.tout.NoSuchToutUserStatusException if a Tout Portlet Status by User with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public ToutUserStatus findByPrimaryKey(long userId)
+	public ToutUserStatus findByPrimaryKey(ToutUserStatusPK toutUserStatusPK)
 		throws NoSuchToutUserStatusException, SystemException {
-		return findByPrimaryKey((Serializable)userId);
+		return findByPrimaryKey((Serializable)toutUserStatusPK);
 	}
 
 	/**
@@ -423,14 +424,14 @@ public class ToutUserStatusPersistenceImpl extends BasePersistenceImpl<ToutUserS
 	/**
 	 * Returns the Tout Portlet Status by User with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param userId the primary key of the Tout Portlet Status by User
+	 * @param toutUserStatusPK the primary key of the Tout Portlet Status by User
 	 * @return the Tout Portlet Status by User, or <code>null</code> if a Tout Portlet Status by User with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public ToutUserStatus fetchByPrimaryKey(long userId)
+	public ToutUserStatus fetchByPrimaryKey(ToutUserStatusPK toutUserStatusPK)
 		throws SystemException {
-		return fetchByPrimaryKey((Serializable)userId);
+		return fetchByPrimaryKey((Serializable)toutUserStatusPK);
 	}
 
 	/**

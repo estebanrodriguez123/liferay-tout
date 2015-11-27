@@ -70,3 +70,24 @@ div.tout-buttons {
     margin: 0 auto;
     width: 70%;
 }
+
+.tout-panel-default {
+    border-color: #DDD !important;
+}
+.tout-panel {
+    margin-bottom: 20px;
+    background-color: #FFF;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+}
+.tout-error-message {
+	color: #B50303;
+}
+.pages-results {
+	margin-bottom: 15px;
+	margin-top: 10px;
+}
+.btn.check-pages-button {
+	margin-top: -50px;
+}

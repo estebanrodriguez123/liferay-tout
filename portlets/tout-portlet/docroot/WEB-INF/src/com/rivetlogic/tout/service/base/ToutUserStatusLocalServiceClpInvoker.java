@@ -32,11 +32,15 @@ public class ToutUserStatusLocalServiceClpInvoker {
 
 		_methodName1 = "createToutUserStatus";
 
-		_methodParameterTypes1 = new String[] { "long" };
+		_methodParameterTypes1 = new String[] {
+				"com.rivetlogic.tout.service.persistence.ToutUserStatusPK"
+			};
 
 		_methodName2 = "deleteToutUserStatus";
 
-		_methodParameterTypes2 = new String[] { "long" };
+		_methodParameterTypes2 = new String[] {
+				"com.rivetlogic.tout.service.persistence.ToutUserStatusPK"
+			};
 
 		_methodName3 = "deleteToutUserStatus";
 
@@ -82,11 +86,15 @@ public class ToutUserStatusLocalServiceClpInvoker {
 
 		_methodName10 = "fetchToutUserStatus";
 
-		_methodParameterTypes10 = new String[] { "long" };
+		_methodParameterTypes10 = new String[] {
+				"com.rivetlogic.tout.service.persistence.ToutUserStatusPK"
+			};
 
 		_methodName11 = "getToutUserStatus";
 
-		_methodParameterTypes11 = new String[] { "long" };
+		_methodParameterTypes11 = new String[] {
+				"com.rivetlogic.tout.service.persistence.ToutUserStatusPK"
+			};
 
 		_methodName12 = "getPersistedModel";
 
@@ -124,12 +132,12 @@ public class ToutUserStatusLocalServiceClpInvoker {
 
 		if (_methodName1.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes1, parameterTypes)) {
-			return ToutUserStatusLocalServiceUtil.createToutUserStatus(((Long)arguments[0]).longValue());
+			return ToutUserStatusLocalServiceUtil.createToutUserStatus((com.rivetlogic.tout.service.persistence.ToutUserStatusPK)arguments[0]);
 		}
 
 		if (_methodName2.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes2, parameterTypes)) {
-			return ToutUserStatusLocalServiceUtil.deleteToutUserStatus(((Long)arguments[0]).longValue());
+			return ToutUserStatusLocalServiceUtil.deleteToutUserStatus((com.rivetlogic.tout.service.persistence.ToutUserStatusPK)arguments[0]);
 		}
 
 		if (_methodName3.equals(name) &&
@@ -175,12 +183,12 @@ public class ToutUserStatusLocalServiceClpInvoker {
 
 		if (_methodName10.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes10, parameterTypes)) {
-			return ToutUserStatusLocalServiceUtil.fetchToutUserStatus(((Long)arguments[0]).longValue());
+			return ToutUserStatusLocalServiceUtil.fetchToutUserStatus((com.rivetlogic.tout.service.persistence.ToutUserStatusPK)arguments[0]);
 		}
 
 		if (_methodName11.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes11, parameterTypes)) {
-			return ToutUserStatusLocalServiceUtil.getToutUserStatus(((Long)arguments[0]).longValue());
+			return ToutUserStatusLocalServiceUtil.getToutUserStatus((com.rivetlogic.tout.service.persistence.ToutUserStatusPK)arguments[0]);
 		}
 
 		if (_methodName12.equals(name) &&
