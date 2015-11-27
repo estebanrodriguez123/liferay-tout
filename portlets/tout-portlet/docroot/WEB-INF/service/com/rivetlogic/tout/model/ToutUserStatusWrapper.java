@@ -51,6 +51,7 @@ public class ToutUserStatusWrapper implements ToutUserStatus,
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("userId", getUserId());
+		attributes.put("toutConfigId", getToutConfigId());
 		attributes.put("articleId", getArticleId());
 		attributes.put("toutDismissed", getToutDismissed());
 		attributes.put("toutSeen", getToutSeen());
@@ -65,6 +66,12 @@ public class ToutUserStatusWrapper implements ToutUserStatus,
 
 		if (userId != null) {
 			setUserId(userId);
+		}
+
+		String toutConfigId = (String)attributes.get("toutConfigId");
+
+		if (toutConfigId != null) {
+			setToutConfigId(toutConfigId);
 		}
 
 		Long articleId = (Long)attributes.get("articleId");
@@ -98,7 +105,7 @@ public class ToutUserStatusWrapper implements ToutUserStatus,
 	* @return the primary key of this Tout Portlet Status by User
 	*/
 	@Override
-	public long getPrimaryKey() {
+	public com.rivetlogic.tout.service.persistence.ToutUserStatusPK getPrimaryKey() {
 		return _toutUserStatus.getPrimaryKey();
 	}
 
@@ -108,7 +115,8 @@ public class ToutUserStatusWrapper implements ToutUserStatus,
 	* @param primaryKey the primary key of this Tout Portlet Status by User
 	*/
 	@Override
-	public void setPrimaryKey(long primaryKey) {
+	public void setPrimaryKey(
+		com.rivetlogic.tout.service.persistence.ToutUserStatusPK primaryKey) {
 		_toutUserStatus.setPrimaryKey(primaryKey);
 	}
 
@@ -152,6 +160,26 @@ public class ToutUserStatusWrapper implements ToutUserStatus,
 	@Override
 	public void setUserUuid(java.lang.String userUuid) {
 		_toutUserStatus.setUserUuid(userUuid);
+	}
+
+	/**
+	* Returns the tout config ID of this Tout Portlet Status by User.
+	*
+	* @return the tout config ID of this Tout Portlet Status by User
+	*/
+	@Override
+	public java.lang.String getToutConfigId() {
+		return _toutUserStatus.getToutConfigId();
+	}
+
+	/**
+	* Sets the tout config ID of this Tout Portlet Status by User.
+	*
+	* @param toutConfigId the tout config ID of this Tout Portlet Status by User
+	*/
+	@Override
+	public void setToutConfigId(java.lang.String toutConfigId) {
+		_toutUserStatus.setToutConfigId(toutConfigId);
 	}
 
 	/**
@@ -318,7 +346,8 @@ public class ToutUserStatusWrapper implements ToutUserStatus,
 	}
 
 	@Override
-	public int compareTo(ToutUserStatus toutUserStatus) {
+	public int compareTo(
+		com.rivetlogic.tout.model.ToutUserStatus toutUserStatus) {
 		return _toutUserStatus.compareTo(toutUserStatus);
 	}
 
@@ -328,17 +357,17 @@ public class ToutUserStatusWrapper implements ToutUserStatus,
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<ToutUserStatus> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<com.rivetlogic.tout.model.ToutUserStatus> toCacheModel() {
 		return _toutUserStatus.toCacheModel();
 	}
 
 	@Override
-	public ToutUserStatus toEscapedModel() {
+	public com.rivetlogic.tout.model.ToutUserStatus toEscapedModel() {
 		return new ToutUserStatusWrapper(_toutUserStatus.toEscapedModel());
 	}
 
 	@Override
-	public ToutUserStatus toUnescapedModel() {
+	public com.rivetlogic.tout.model.ToutUserStatus toUnescapedModel() {
 		return new ToutUserStatusWrapper(_toutUserStatus.toUnescapedModel());
 	}
 

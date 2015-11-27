@@ -17,6 +17,12 @@
 
 package com.rivetlogic.tout.config;
 
+import java.util.List;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
 public class ToutConfig {
        
     private boolean enabled;
@@ -24,8 +30,29 @@ public class ToutConfig {
     private int daysBeforeReminder;
     private String articleId;
     private long articleGroupId;
+    private List<Long>sites;
+    private String pagesRegex;
     
-    public boolean isEnabled() {
+    private String id;
+    
+    public ToutConfig(){
+    	generateId();
+    }
+    
+    public void generateId(){
+    	UUID uuid = UUID.randomUUID();
+    	id = uuid.toString();
+    }
+    
+    public String getId() {
+		return id;
+	}
+
+    public void setId(String id){
+    	this.id = id;
+    }
+    
+	public boolean isEnabled() {
         return enabled;
     }
     public void setEnabled(boolean enabled) {
@@ -40,7 +67,22 @@ public class ToutConfig {
     public int getDaysBeforeReminder() {
         return daysBeforeReminder;
     }
-    public void setDaysBeforeReminder(int daysBeforeReminder) {
+    public List<Long> getSites() {
+		return sites;
+	}
+	public void setSites(List<Long> sites) {
+		this.sites = sites;
+	}
+
+	public String getPagesRegex() {
+		return pagesRegex;
+	}
+
+	public void setPagesRegex(String pagesRegex) {
+		this.pagesRegex = pagesRegex;
+	}
+
+	public void setDaysBeforeReminder(int daysBeforeReminder) {
         this.daysBeforeReminder = daysBeforeReminder;
     }
     public String getArticleId() {
@@ -54,5 +96,54 @@ public class ToutConfig {
     }
     public void setArticleGroupId(long articleGroupId) {
         this.articleGroupId = articleGroupId;
-    }    
+    }
+    
+    public boolean isEnabledOnSite(Long siteId, String pageName){
+    	if(!isEnabled())
+    		return false;
+    	
+    	if(null != sites && !sites.isEmpty()){
+    		if(!sites.contains(siteId))
+    			return false;
+    	}
+    	
+    	if(null != pagesRegex && !pagesRegex.isEmpty()){
+    		try{
+    			Pattern pattern = Pattern.compile(pagesRegex.toLowerCase());
+    			Matcher matcher = pattern.matcher(pageName.toLowerCase());
+    			if (!matcher.find()){
+    				return false;
+    			}
+    		}catch(PatternSyntaxException e){
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ToutConfig other = (ToutConfig) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
 }

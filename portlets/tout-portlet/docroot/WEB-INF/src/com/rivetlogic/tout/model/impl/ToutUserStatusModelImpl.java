@@ -19,16 +19,14 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
-import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.util.PortalUtil;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
 
 import com.rivetlogic.tout.model.ToutUserStatus;
 import com.rivetlogic.tout.model.ToutUserStatusModel;
+import com.rivetlogic.tout.service.persistence.ToutUserStatusPK;
 
 import java.io.Serializable;
 
@@ -61,15 +59,16 @@ public class ToutUserStatusModelImpl extends BaseModelImpl<ToutUserStatus>
 	public static final String TABLE_NAME = "rivetlogic_tout_ToutUserStatus";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "userId", Types.BIGINT },
+			{ "toutConfigId", Types.VARCHAR },
 			{ "articleId", Types.BIGINT },
 			{ "toutDismissed", Types.BOOLEAN },
 			{ "toutSeen", Types.BOOLEAN },
 			{ "reminderDate", Types.TIMESTAMP }
 		};
-	public static final String TABLE_SQL_CREATE = "create table rivetlogic_tout_ToutUserStatus (userId LONG not null primary key,articleId LONG,toutDismissed BOOLEAN,toutSeen BOOLEAN,reminderDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table rivetlogic_tout_ToutUserStatus (userId LONG not null,toutConfigId VARCHAR(75) not null,articleId LONG,toutDismissed BOOLEAN,toutSeen BOOLEAN,reminderDate DATE null,primary key (userId, toutConfigId))";
 	public static final String TABLE_SQL_DROP = "drop table rivetlogic_tout_ToutUserStatus";
-	public static final String ORDER_BY_JPQL = " ORDER BY toutUserStatus.userId ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY rivetlogic_tout_ToutUserStatus.userId ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY toutUserStatus.id.userId ASC, toutUserStatus.id.toutConfigId ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY rivetlogic_tout_ToutUserStatus.userId ASC, rivetlogic_tout_ToutUserStatus.toutConfigId ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -87,23 +86,24 @@ public class ToutUserStatusModelImpl extends BaseModelImpl<ToutUserStatus>
 	}
 
 	@Override
-	public long getPrimaryKey() {
-		return _userId;
+	public ToutUserStatusPK getPrimaryKey() {
+		return new ToutUserStatusPK(_userId, _toutConfigId);
 	}
 
 	@Override
-	public void setPrimaryKey(long primaryKey) {
-		setUserId(primaryKey);
+	public void setPrimaryKey(ToutUserStatusPK primaryKey) {
+		setUserId(primaryKey.userId);
+		setToutConfigId(primaryKey.toutConfigId);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _userId;
+		return new ToutUserStatusPK(_userId, _toutConfigId);
 	}
 
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		setPrimaryKey(((Long)primaryKeyObj).longValue());
+		setPrimaryKey((ToutUserStatusPK)primaryKeyObj);
 	}
 
 	@Override
@@ -121,6 +121,7 @@ public class ToutUserStatusModelImpl extends BaseModelImpl<ToutUserStatus>
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("userId", getUserId());
+		attributes.put("toutConfigId", getToutConfigId());
 		attributes.put("articleId", getArticleId());
 		attributes.put("toutDismissed", getToutDismissed());
 		attributes.put("toutSeen", getToutSeen());
@@ -135,6 +136,12 @@ public class ToutUserStatusModelImpl extends BaseModelImpl<ToutUserStatus>
 
 		if (userId != null) {
 			setUserId(userId);
+		}
+
+		String toutConfigId = (String)attributes.get("toutConfigId");
+
+		if (toutConfigId != null) {
+			setToutConfigId(toutConfigId);
 		}
 
 		Long articleId = (Long)attributes.get("articleId");
@@ -180,6 +187,21 @@ public class ToutUserStatusModelImpl extends BaseModelImpl<ToutUserStatus>
 	@Override
 	public void setUserUuid(String userUuid) {
 		_userUuid = userUuid;
+	}
+
+	@Override
+	public String getToutConfigId() {
+		if (_toutConfigId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _toutConfigId;
+		}
+	}
+
+	@Override
+	public void setToutConfigId(String toutConfigId) {
+		_toutConfigId = toutConfigId;
 	}
 
 	@Override
@@ -233,19 +255,6 @@ public class ToutUserStatusModelImpl extends BaseModelImpl<ToutUserStatus>
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
-			ToutUserStatus.class.getName(), getPrimaryKey());
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		ExpandoBridge expandoBridge = getExpandoBridge();
-
-		expandoBridge.setAttributes(serviceContext);
-	}
-
-	@Override
 	public ToutUserStatus toEscapedModel() {
 		if (_escapedModel == null) {
 			_escapedModel = (ToutUserStatus)ProxyUtil.newProxyInstance(_classLoader,
@@ -260,6 +269,7 @@ public class ToutUserStatusModelImpl extends BaseModelImpl<ToutUserStatus>
 		ToutUserStatusImpl toutUserStatusImpl = new ToutUserStatusImpl();
 
 		toutUserStatusImpl.setUserId(getUserId());
+		toutUserStatusImpl.setToutConfigId(getToutConfigId());
 		toutUserStatusImpl.setArticleId(getArticleId());
 		toutUserStatusImpl.setToutDismissed(getToutDismissed());
 		toutUserStatusImpl.setToutSeen(getToutSeen());
@@ -272,17 +282,9 @@ public class ToutUserStatusModelImpl extends BaseModelImpl<ToutUserStatus>
 
 	@Override
 	public int compareTo(ToutUserStatus toutUserStatus) {
-		long primaryKey = toutUserStatus.getPrimaryKey();
+		ToutUserStatusPK primaryKey = toutUserStatus.getPrimaryKey();
 
-		if (getPrimaryKey() < primaryKey) {
-			return -1;
-		}
-		else if (getPrimaryKey() > primaryKey) {
-			return 1;
-		}
-		else {
-			return 0;
-		}
+		return getPrimaryKey().compareTo(primaryKey);
 	}
 
 	@Override
@@ -297,9 +299,9 @@ public class ToutUserStatusModelImpl extends BaseModelImpl<ToutUserStatus>
 
 		ToutUserStatus toutUserStatus = (ToutUserStatus)obj;
 
-		long primaryKey = toutUserStatus.getPrimaryKey();
+		ToutUserStatusPK primaryKey = toutUserStatus.getPrimaryKey();
 
-		if (getPrimaryKey() == primaryKey) {
+		if (getPrimaryKey().equals(primaryKey)) {
 			return true;
 		}
 		else {
@@ -309,7 +311,7 @@ public class ToutUserStatusModelImpl extends BaseModelImpl<ToutUserStatus>
 
 	@Override
 	public int hashCode() {
-		return (int)getPrimaryKey();
+		return getPrimaryKey().hashCode();
 	}
 
 	@Override
@@ -321,6 +323,14 @@ public class ToutUserStatusModelImpl extends BaseModelImpl<ToutUserStatus>
 		ToutUserStatusCacheModel toutUserStatusCacheModel = new ToutUserStatusCacheModel();
 
 		toutUserStatusCacheModel.userId = getUserId();
+
+		toutUserStatusCacheModel.toutConfigId = getToutConfigId();
+
+		String toutConfigId = toutUserStatusCacheModel.toutConfigId;
+
+		if ((toutConfigId != null) && (toutConfigId.length() == 0)) {
+			toutUserStatusCacheModel.toutConfigId = null;
+		}
 
 		toutUserStatusCacheModel.articleId = getArticleId();
 
@@ -342,10 +352,12 @@ public class ToutUserStatusModelImpl extends BaseModelImpl<ToutUserStatus>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{userId=");
 		sb.append(getUserId());
+		sb.append(", toutConfigId=");
+		sb.append(getToutConfigId());
 		sb.append(", articleId=");
 		sb.append(getArticleId());
 		sb.append(", toutDismissed=");
@@ -361,7 +373,7 @@ public class ToutUserStatusModelImpl extends BaseModelImpl<ToutUserStatus>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(22);
 
 		sb.append("<model><model-name>");
 		sb.append("com.rivetlogic.tout.model.ToutUserStatus");
@@ -370,6 +382,10 @@ public class ToutUserStatusModelImpl extends BaseModelImpl<ToutUserStatus>
 		sb.append(
 			"<column><column-name>userId</column-name><column-value><![CDATA[");
 		sb.append(getUserId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>toutConfigId</column-name><column-value><![CDATA[");
+		sb.append(getToutConfigId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>articleId</column-name><column-value><![CDATA[");
@@ -399,6 +415,7 @@ public class ToutUserStatusModelImpl extends BaseModelImpl<ToutUserStatus>
 		};
 	private long _userId;
 	private String _userUuid;
+	private String _toutConfigId;
 	private long _articleId;
 	private boolean _toutDismissed;
 	private boolean _toutSeen;

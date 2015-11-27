@@ -14,6 +14,8 @@
 
 package com.rivetlogic.tout.model;
 
+import com.rivetlogic.tout.service.persistence.ToutUserStatusPK;
+
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class ToutUserStatusSoap implements Serializable {
 		ToutUserStatusSoap soapModel = new ToutUserStatusSoap();
 
 		soapModel.setUserId(model.getUserId());
+		soapModel.setToutConfigId(model.getToutConfigId());
 		soapModel.setArticleId(model.getArticleId());
 		soapModel.setToutDismissed(model.getToutDismissed());
 		soapModel.setToutSeen(model.getToutSeen());
@@ -79,12 +82,13 @@ public class ToutUserStatusSoap implements Serializable {
 	public ToutUserStatusSoap() {
 	}
 
-	public long getPrimaryKey() {
-		return _userId;
+	public ToutUserStatusPK getPrimaryKey() {
+		return new ToutUserStatusPK(_userId, _toutConfigId);
 	}
 
-	public void setPrimaryKey(long pk) {
-		setUserId(pk);
+	public void setPrimaryKey(ToutUserStatusPK pk) {
+		setUserId(pk.userId);
+		setToutConfigId(pk.toutConfigId);
 	}
 
 	public long getUserId() {
@@ -93,6 +97,14 @@ public class ToutUserStatusSoap implements Serializable {
 
 	public void setUserId(long userId) {
 		_userId = userId;
+	}
+
+	public String getToutConfigId() {
+		return _toutConfigId;
+	}
+
+	public void setToutConfigId(String toutConfigId) {
+		_toutConfigId = toutConfigId;
 	}
 
 	public long getArticleId() {
@@ -136,6 +148,7 @@ public class ToutUserStatusSoap implements Serializable {
 	}
 
 	private long _userId;
+	private String _toutConfigId;
 	private long _articleId;
 	private boolean _toutDismissed;
 	private boolean _toutSeen;

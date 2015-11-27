@@ -17,8 +17,13 @@
 
 package com.rivetlogic.tout.portlet;
 
+
 public class ToutPortletConstants {
     
+	public static final String TOUT_CONFIG = "toutConfig";
+	public static final String TOUT_CONFIG_LIST = "toutConfigList";
+	//public static final String TOUT_CONFIG_ID_PARAM = "toutConfigId";
+	
     public static final String ATTR_TOUT_ENABLED = "toutEnabled";
     public static final String ATTR_TOUT_URL = "toutUrl";
     public static final String ATTR_TOUT_DAYS_BEFORE_REMINDER = "toutDaysBeforeReminder";
@@ -32,14 +37,29 @@ public class ToutPortletConstants {
     public static final String ATTR_TOUT_ACTION = "action";
     public static final String ATTR_TOUT_SHOW_ARTICLE = "article";
     public static final String ATTR_TOUT_SHOW_ARTICLE_ID = "articleId";
+    public static final String ATTR_TOUT_ID = "toutConfigId";
+    public static final String ATTR_TOUT_SITES = "sites";
+    public static final String ATTR_TOUT_PAGES = "pageRegex";
+    
+    public static final String TOUT_CONFIG_ID = "id";
+    public static final String TOUT_CONFIG_ENABLED = "enabled";
+    public static final String TOUT_CONFIG_ARTICLE_ID = "articleId";
+    public static final String TOUT_CONFIG_ARTICLE_GROUP_ID = "articleGroupId";
+    public static final String TOUT_CONFIG_DAYS_BEFORE_REMINDER = "daysBeforeReminder";
+    public static final String TOUT_CONFIG_SHOW_MORE_URL = "showMoreURL";
+    public static final String TOUT_CONFIG_PAGES = "pagesRegex";
+    public static final String TOUT_CONFIG_SITES = "sites";
     
     public static final String CMD = "cmd";
     public static final String CMD_SHOW_ARTICLE_AS_SELECTED = "showArticleAsSelected";
+    public static final String CMD_SHOW_MATCHING_PAGES = "showMatchingPages";
     public static final String JSP_PAGE = "jspPage";
     public static final String TEMPLATE_ARTICLE_VIEWER = "/html/control-panel/articleViewer.jsp";
     public static final String TEMPLATE_SELECTED_ARTICLE_DISPLAY = "/html/control-panel/selected_article_display.jsp";
     public static final String TEMPLATE_ARTICLE_SELECTOR = "/html/control-panel/articleSelector.jsp";
     public static final String TEMPLATE_CONTENT_DISPLAY = "/html/content.jsp";
+    public static final String TEMPLATE_ADD_TOUT_CONFIG = "/html/control-panel/add.jsp";
+    
     public static final long UNDEFINED_GROUP_ID = 0;
     
     public static final String ATTR_ORDER_BY_COL = "orderByCol";
@@ -52,6 +72,15 @@ public class ToutPortletConstants {
     public static final String JSON_ANSWER_ERROR_MESSAGE = "errorMessage";
     
     public static final String ERROR_STORING_PREFERENCES = "tout-error-storing-preferences";
+    public static final String ERROR_DELETING_TOUT_PREFERENCES = "tout-error-deleting-tout-preferences";
+    public static final String ERROR_MISSING_REQUIRED_PARAMETER = "tout-error-missing-required-parameter";
+    public static final String ERROR_BAD_PARAMETER_REGEX = "tout-error-bad-pages-regex-value";
+    public static final String ERROR_NO_MATCHING_PAGES = "tout-error-no-matching-pages-found";
+    public static final String ERROR_RETRIEVING_MATCHING_PAGES = "tout-error-retrieving-matching-pages";
+    
+    public static final String ACTION = "action";
+    public static final String ACTION_EDIT = "action-edit";
+    public static final String ACTION_ADD = "action-add";
     
     public static final int TABLE_NUM_ROWS = 10;
     public static final int ONE_ROW = 1;

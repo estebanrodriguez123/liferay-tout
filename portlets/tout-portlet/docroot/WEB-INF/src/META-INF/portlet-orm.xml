@@ -8,8 +8,10 @@
 		</persistence-unit-defaults>
 	</persistence-unit-metadata>
 	<mapped-superclass class="com.rivetlogic.tout.model.impl.ToutUserStatusModelImpl">
+		<id-class class="com.rivetlogic.tout.service.persistence.ToutUserStatusPK" />
 		<attributes>
 			<id name="userId" />
+			<id name="toutConfigId" />
 			<basic name="articleId" />
 			<basic name="toutDismissed" />
 			<basic name="toutSeen" />

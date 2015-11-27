@@ -30,9 +30,10 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.model.Group;
 import com.liferay.portal.model.GroupConstants;
 import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.User;
+import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.portlet.journal.model.JournalArticle;
@@ -43,12 +44,14 @@ import com.rivetlogic.tout.config.ToutConfig;
 import com.rivetlogic.tout.config.ToutConfigUtil;
 import com.rivetlogic.tout.model.ToutUserStatus;
 import com.rivetlogic.tout.service.ToutUserStatusLocalServiceUtil;
+import com.rivetlogic.tout.service.persistence.ToutUserStatusPK;
 import com.rivetlogic.tout.util.UserActionsEnum;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
@@ -67,9 +70,7 @@ public class ToutPortlet extends MVCPortlet {
     @Override
     public void doView(RenderRequest request, RenderResponse response) throws IOException, PortletException {
         
-        ToutConfig tout = ToutConfigUtil.getToutConfig();
-        
-        if (setToutDialogShowing(request, tout)) {
+        if (setToutDialogShowing(request, getMatchingToutConfig(request))) {
             super.doView(request, response);
         }
     }
@@ -81,7 +82,7 @@ public class ToutPortlet extends MVCPortlet {
         
         if (jspPage.equals(ToutPortletConstants.TEMPLATE_CONTENT_DISPLAY)) {
             
-            ToutConfig tout = ToutConfigUtil.getToutConfig();
+            ToutConfig tout = getMatchingToutConfig(request);
             if (setToutDialogShowing(request, tout)) {
                 setArticleToDisplay(request, tout);
             }
@@ -97,7 +98,6 @@ public class ToutPortlet extends MVCPortlet {
         try {
             processActions(request);
             resultJsonObject.put(ToutPortletConstants.JSON_ANSWER_STATUS, true);
-            
         } catch (Exception e) {
             logger.error(e.getMessage());
             resultJsonObject = JSONFactoryUtil.createJSONObject();
@@ -112,12 +112,15 @@ public class ToutPortlet extends MVCPortlet {
 
         long articleId = ParamUtil.getLong(request, ToutPortletConstants.ATTR_TOUT_SHOW_ARTICLE_ID);       
         String actionName = ParamUtil.getString(request, ToutPortletConstants.ATTR_TOUT_ACTION);
-        ToutConfig tout = ToutConfigUtil.getToutConfig();
+        String toutConfigId = ParamUtil.getString(request, ToutPortletConstants.ATTR_TOUT_ID);
+        
+        ToutConfig tout = getMatchingToutConfig(request);
         
         if (!actionName.isEmpty()) {
             UserActionsEnum action = valueOf(actionName);
             ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-            ToutUserStatus userStatus = getToutUserStatus(themeDisplay.getUser());
+            ToutUserStatusPK pk = new ToutUserStatusPK(themeDisplay.getUser().getUserId(), toutConfigId);
+            ToutUserStatus userStatus = getToutUserStatus(pk);
             userStatus.setArticleId(articleId);
             
             if (action.equals(DISMISSED)) {
@@ -161,36 +164,50 @@ public class ToutPortlet extends MVCPortlet {
         userStatus.setToutSeen(false);
     }
     
+    private ToutConfig getMatchingToutConfig(PortletRequest request){
+    	ToutConfig toutConfig = null;
+    	ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+    	Layout layout = themeDisplay.getLayout();
+    	try{
+	    	Set<ToutConfig>toutConfigList = ToutConfigUtil.getToutConfigSet();
+	    	if(null != toutConfigList){
+		    	for(ToutConfig toutConfigItem : toutConfigList){
+		    		Group currentGroup = GroupLocalServiceUtil.getGroup(themeDisplay.getScopeGroupId());
+		    		long groupId = (currentGroup.isRoot() ? currentGroup.getGroupId() : currentGroup.getParentGroupId());
+		    		if (toutConfigItem != null && toutConfigItem.isEnabledOnSite(groupId, layout.getNameCurrentValue()) && themeDisplay.isSignedIn()
+		                    && !layout.getGroup().getName().equals(GroupConstants.CONTROL_PANEL)) {
+		    			toutConfig = toutConfigItem;
+		    			break;
+		    		}
+		    	}
+	    	}
+    	}catch(Exception e){
+    		logger.error(e);
+    	}
+    	return toutConfig;
+    }
+    
     private boolean setToutDialogShowing(PortletRequest request, ToutConfig tout) {
-        
+        if(null == tout)
+        	return false;
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-        Layout layout = themeDisplay.getLayout();
         boolean display = false;
-        
         try {
-            if (tout != null && tout.isEnabled() && themeDisplay.isSignedIn()
-                    && !layout.getGroup().getName().equals(GroupConstants.CONTROL_PANEL)) {
-                
-                // check if must be shown for this specific user. dismissed or
-                // reminder
-                
-                // It takes the last version of the article with given article
-                // id
-                JournalArticle toutArticle = JournalArticleLocalServiceUtil.getArticle(tout.getArticleGroupId(),
-                        tout.getArticleId());
-                ToutUserStatus userStatus = getToutUserStatus(themeDisplay.getUser());
-                
-                // For user, we keep the ID (not articleId) because it
-                // correspond to (articleId-version)
-                if (userStatus.getArticleId() != toutArticle.getId()) {
-                    display = true;
-                } else if (!userStatus.getToutDismissed() && !userStatus.getToutSeen()
-                        && userStatus.getReminderDate() != null && new Date().after(userStatus.getReminderDate())) {
-                    display = true;
-                }
-                request.setAttribute(ToutPortletConstants.ATTR_TOUT_SHOW, display);
-                
+            JournalArticle toutArticle = JournalArticleLocalServiceUtil.getArticle(tout.getArticleGroupId(),
+                    tout.getArticleId());
+            ToutUserStatusPK pk = new ToutUserStatusPK(themeDisplay.getUser().getUserId(), tout.getId());
+            ToutUserStatus userStatus = getToutUserStatus(pk);
+            
+            // For user, we keep the ID (not articleId) because it
+            // correspond to (articleId-version)
+            if (userStatus.getArticleId() != toutArticle.getId()) {
+                display = true;
+            } else if (!userStatus.getToutDismissed() && !userStatus.getToutSeen()
+                    && userStatus.getReminderDate() != null && new Date().after(userStatus.getReminderDate())) {
+                display = true;
             }
+            request.setAttribute(ToutPortletConstants.ATTR_TOUT_SHOW, display);
+        	
         } catch (Exception e) {
             logger.error(e);
             request.setAttribute(ToutPortletConstants.ATTR_TOUT_SHOW, false);
@@ -204,6 +221,7 @@ public class ToutPortlet extends MVCPortlet {
             JournalArticle article = getJournalArticle(tout);
             request.setAttribute(ToutPortletConstants.ATTR_TOUT_URL, tout.getShowMoreURL());
             request.setAttribute(ToutPortletConstants.ATTR_TOUT_SHOW_ARTICLE, article);
+            request.setAttribute(ToutPortletConstants.ATTR_TOUT_ID, tout.getId());
             JournalContentUtil.clearCache(tout.getArticleGroupId(), tout.getArticleId(), null);
         }
     }
@@ -214,12 +232,12 @@ public class ToutPortlet extends MVCPortlet {
      * 
      * @return ToutConfig
      */
-    private ToutUserStatus getToutUserStatus(User user) {
+    private ToutUserStatus getToutUserStatus(ToutUserStatusPK pk) {
         ToutUserStatus toutUserStatus = null;
         try {
-            toutUserStatus = ToutUserStatusLocalServiceUtil.fetchToutUserStatus(user.getUserId());
+            toutUserStatus = ToutUserStatusLocalServiceUtil.fetchToutUserStatus(pk);
             if (toutUserStatus == null) {
-                toutUserStatus = ToutUserStatusLocalServiceUtil.createToutUserStatus(user.getUserId());
+                toutUserStatus = ToutUserStatusLocalServiceUtil.createToutUserStatus(pk);
             }
         } catch (SystemException s) {
             logger.error(s);

@@ -16,59 +16,85 @@
  */
 --%>
 
+<%@page import="com.rivetlogic.tout.config.ToutConfig"%>
 <%@include file="/html/init.jsp" %>
 
-<liferay-ui:error message="<%=ToutPortletConstants.ERROR_STORING_PREFERENCES %>" key="<%=ToutPortletConstants.ERROR_STORING_PREFERENCES %>"/>
+<% List<ToutConfig> toutConfigList = (ArrayList<ToutConfig>)request.getAttribute("toutConfigList"); %>
 
-<portlet:actionURL name="saveToutPreferences" var="savePreferencesURL">
-	<portlet:param name="redirect" value="<%= currentURL %>"/>
-</portlet:actionURL>
+<aui:button-row>
+	<portlet:renderURL var="addToutConfigURL">
+		<portlet:param name="mvcPath" value="/html/control-panel/add.jsp" />
+		<portlet:param name="<%=ToutPortletConstants.JSP_PAGE%>" value="/html/control-panel/add.jsp" />
+		<portlet:param name="<%=ToutPortletConstants.ACTION%>" value="<%=ToutPortletConstants.ACTION_ADD%>"/>
+		<portlet:param name="redirect" value="<%= redirect %>" />
+		<portlet:param name="p_p_isolated" value="1" />
+	</portlet:renderURL>
 
-<portlet:renderURL var="articleSelectorContentURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
-    <portlet:param name="<%=ToutPortletConstants.JSP_PAGE%>" value="<%=ToutPortletConstants.TEMPLATE_ARTICLE_SELECTOR%>"/>
-</portlet:renderURL>
+	<aui:button value="add-toutConfig" onClick="<%=addToutConfigURL %>"/>
+</aui:button-row>
 
+<!--  a id="view${selectedArticle.articleId}" href="${articleViewerContentURL}" class=articleSelectorPreviewLink-->
 
-<aui:form name="tout-fm" action="${savePreferencesURL}" method="post">
-    <aui:fieldset label="tout-selec-title">
-        <div>
-            <aui:input type="checkbox" value="${toutEnabled}" name="<%=ToutPortletConstants.ATTR_TOUT_ENABLED%>" label="tout-enabled-label"/>
-        </div>
-        <liferay-ui:panel cssClass="tout-control-panel" collapsible="false" extended="false" id="toutValuesPanel" persistState="true" title="">
+<liferay-ui:search-container
+	emptyResultsMessage="no-tout-configuration-found">
+	<liferay-ui:search-container-results
+		results="<%= toutConfigList %>"
+		total="<%= toutConfigList.size() %>" />
 
-            <%--Know more text input--%>
-            <aui:input name="<%=ToutPortletConstants.ATTR_TOUT_URL%>" type="text" value="${toutUrl}" label="tout-know-more-label">
-                <aui:validator name="required" />
-            </aui:input>
+	<liferay-ui:search-container-row
+		className="com.rivetlogic.tout.config.ToutConfig" keyProperty="id"
+		modelVar="toutConfig" escapedModel="<%= true %>">
 
-            <%--days before reminder text input--%>
-            <aui:input name="<%=ToutPortletConstants.ATTR_TOUT_DAYS_BEFORE_REMINDER%>" value="${toutDaysBeforeReminder}" type="text" label="tout-days-remider-label">
-                <aui:validator name="required" />
-                <aui:validator name="digits" />
-            </aui:input>
+		<liferay-ui:search-container-column-text name="tout-showUrl-column"
+			property="showMoreURL" />
+			
+		<liferay-ui:search-container-column-text name="tout-status-column"
+			value="<%=(toutConfig.isEnabled() ? \"Enabled\" : \"Disabled\")%>" />
 
-            <%--add article button and search result--%>
-            <div class="control-group error">
-            <aui:button id="${pns}tout-selectArticleButton" type="button" value="tout-select-article" cssClass="event-button"/>                      
-            <aui:input name ="<%=ToutPortletConstants.ATTR_TOUT_ARTICLE_ID %>" type="hidden" value ="${selectedArticle.articleId}">
-                <aui:validator name="required" errorMessage="tout-article-required"/>
-            </aui:input></div>  
-            <aui:input name = "<%=ToutPortletConstants.ATTR_TOUT_ARTICLE_GROUP_ID %>" type="hidden" value ="${selectedArticleGroup.groupId}" />
-            
-            <div id="${pns}SelectedArticleContainer">          
-	            <c:if test="${selectedArticle != null}">
-		            <%@include file="/html/control-panel/selected_article_display.jspf" %>
-	            </c:if>	            
-            </div>
-        </liferay-ui:panel>
-    </aui:fieldset>
-    
-    <aui:button type="submit" name="submit" label="" value='tout-save-preferences'/>
-</aui:form>
+		<liferay-ui:search-container-column-text name="tout-daysBeforeReminder-column"
+			property="daysBeforeReminder" />
+		<% 
+			String sitesStr = StringPool.BLANK;
+			List<Long>sitesIds = toutConfig.getSites();
+			if(null != sitesIds && !sitesIds.isEmpty()){
+				List<Group>  availableGroups = GroupLocalServiceUtil.getGroups(ArrayUtil.toLongArray(sitesIds));
+				if(null != availableGroups && !availableGroups.isEmpty()){
+					List<String> sitesNamesList = new ArrayList<String>();
+					for(Group group: availableGroups){
+						sitesNamesList.add(group.getScopeDescriptiveName(themeDisplay));
+					}
+					sitesStr = StringUtil.merge(sitesNamesList, ", ");
+				}
+			}
+		%>
+		<liferay-ui:search-container-column-text name="tout-sites-column"
+			value="<%=sitesStr%>" />
+			
+		<liferay-ui:search-container-column-text name="tout-pagesRegex-column"
+			property="pagesRegex" />
+      <%                
+      	JournalArticle toutArticle = JournalArticleLocalServiceUtil.getArticle(toutConfig.getArticleGroupId(),
+      			toutConfig.getArticleId());
+                        %>
+      <portlet:renderURL var="articleViewerContentURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+		    <portlet:param name="<%=ToutPortletConstants.JSP_PAGE%>" value="<%=ToutPortletConstants.TEMPLATE_ARTICLE_VIEWER%>"/>
+		    <portlet:param name="<%=ToutPortletConstants.ATTR_TOUT_ARTICLE_ID%>" value="<%=String.valueOf(toutConfig.getArticleId())%>"/>
+		    <portlet:param name="<%=ToutPortletConstants.ATTR_TOUT_ARTICLE_GROUP_ID%>" value="<%=String.valueOf(toutConfig.getArticleGroupId())%>"/>
+		</portlet:renderURL>
+		
+		<liferay-ui:search-container-column-text name="tout-article-column">
+			<a id="view<%=String.valueOf(toutConfig.getArticleId())%>" href="${articleViewerContentURL}" class=articleSelectorPreviewLink>
+			<%=toutArticle.getTitleCurrentValue()%></a>
+		</liferay-ui:search-container-column-text>
+		
+		<liferay-ui:search-container-column-jsp align="right"
+			path="/html/control-panel/actions.jsp" />
+	</liferay-ui:search-container-row>
+
+	<liferay-ui:search-iterator />
+</liferay-ui:search-container>
 
 <aui:script use="tout-config">
     A.ToutConfig.setPortletNamespace('${pns}');
-    A.one('#${pns}tout-fm input[type=checkbox]').on('click', A.ToutConfig.handleDisableAction );
-    A.one('#${pns}tout-selectArticleButton').on('click', A.ToutConfig.displayArticles, null, '${articleSelectorContentURL}' );
     A.all('a.articleSelectorPreviewLink').on('click', A.ToutConfig.articleSelectorPreviewHandler);
 </aui:script>

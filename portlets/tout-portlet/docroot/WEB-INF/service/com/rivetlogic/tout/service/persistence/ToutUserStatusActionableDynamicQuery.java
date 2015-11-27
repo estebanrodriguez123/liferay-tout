@@ -32,6 +32,6 @@ public abstract class ToutUserStatusActionableDynamicQuery
 
 		setClassLoader(com.rivetlogic.tout.service.ClpSerializer.class.getClassLoader());
 
-		setPrimaryKeyPropertyName("userId");
+		setPrimaryKeyPropertyName("primaryKey.userId");
 	}
 }

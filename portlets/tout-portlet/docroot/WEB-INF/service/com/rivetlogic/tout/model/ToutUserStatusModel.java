@@ -14,12 +14,15 @@
 
 package com.rivetlogic.tout.model;
 
+import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.service.ServiceContext;
 
 import com.liferay.portlet.expando.model.ExpandoBridge;
+
+import com.rivetlogic.tout.service.persistence.ToutUserStatusPK;
 
 import java.io.Serializable;
 
@@ -50,14 +53,14 @@ public interface ToutUserStatusModel extends BaseModel<ToutUserStatus> {
 	 *
 	 * @return the primary key of this Tout Portlet Status by User
 	 */
-	public long getPrimaryKey();
+	public ToutUserStatusPK getPrimaryKey();
 
 	/**
 	 * Sets the primary key of this Tout Portlet Status by User.
 	 *
 	 * @param primaryKey the primary key of this Tout Portlet Status by User
 	 */
-	public void setPrimaryKey(long primaryKey);
+	public void setPrimaryKey(ToutUserStatusPK primaryKey);
 
 	/**
 	 * Returns the user ID of this Tout Portlet Status by User.
@@ -87,6 +90,21 @@ public interface ToutUserStatusModel extends BaseModel<ToutUserStatus> {
 	 * @param userUuid the user uuid of this Tout Portlet Status by User
 	 */
 	public void setUserUuid(String userUuid);
+
+	/**
+	 * Returns the tout config ID of this Tout Portlet Status by User.
+	 *
+	 * @return the tout config ID of this Tout Portlet Status by User
+	 */
+	@AutoEscape
+	public String getToutConfigId();
+
+	/**
+	 * Sets the tout config ID of this Tout Portlet Status by User.
+	 *
+	 * @param toutConfigId the tout config ID of this Tout Portlet Status by User
+	 */
+	public void setToutConfigId(String toutConfigId);
 
 	/**
 	 * Returns the article ID of this Tout Portlet Status by User.
