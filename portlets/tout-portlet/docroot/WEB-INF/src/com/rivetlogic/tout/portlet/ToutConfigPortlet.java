@@ -187,7 +187,7 @@ public class ToutConfigPortlet extends MVCPortlet {
 	    	String sitesIdsParam = ParamUtil.getString(request, ToutPortletConstants.ATTR_TOUT_SITES);
 	    	String pagesRegex = ParamUtil.getString(request, ToutPortletConstants.ATTR_TOUT_PAGES);
 	    	if(null == pagesRegex || pagesRegex.isEmpty()){
-	    		printJsonResponse(LanguageUtil.get(portletConfig, themeDisplay.getLocale(), "tout-error-bad-pages-regex-value"), 
+	    		printJsonResponse(LanguageUtil.get(portletConfig, themeDisplay.getLocale(), ToutPortletConstants.ERROR_BAD_PARAMETER_REGEX), 
 	    				String.valueOf(HttpServletResponse.SC_BAD_REQUEST), response);
 	    		return;
 	    	}
@@ -196,7 +196,7 @@ public class ToutConfigPortlet extends MVCPortlet {
 	    		pattern = Pattern.compile(pagesRegex.toLowerCase());
 			} catch (PatternSyntaxException  e) {
 				logger.error(e);
-				printJsonResponse(LanguageUtil.get(portletConfig, themeDisplay.getLocale(), "tout-error-bad-pages-regex-value"), 
+				printJsonResponse(LanguageUtil.get(portletConfig, themeDisplay.getLocale(), ToutPortletConstants.ERROR_BAD_PARAMETER_REGEX), 
 						String.valueOf(HttpServletResponse.SC_BAD_REQUEST), response);
 				return;
 			}
@@ -219,12 +219,12 @@ public class ToutConfigPortlet extends MVCPortlet {
 				}
 				printJsonResponse(jsonArray.toString(), String.valueOf(HttpServletResponse.SC_OK), response);	
 	    	}else{
-	    		printJsonResponse(LanguageUtil.get(portletConfig, themeDisplay.getLocale(), "tout-error-no-matching-pages-found"), 
+	    		printJsonResponse(LanguageUtil.get(portletConfig, themeDisplay.getLocale(), ToutPortletConstants.ERROR_NO_MATCHING_PAGES), 
 	    				String.valueOf(HttpServletResponse.SC_NOT_FOUND), response);
 	    	}
     	}catch(Exception e){
     		logger.error(e);
-    		printJsonResponse(LanguageUtil.get(portletConfig, themeDisplay.getLocale(), "tout-error-retrieving-matching-pages"), 
+    		printJsonResponse(LanguageUtil.get(portletConfig, themeDisplay.getLocale(), ToutPortletConstants.ERROR_RETRIEVING_MATCHING_PAGES), 
     				String.valueOf(HttpServletResponse.SC_INTERNAL_SERVER_ERROR), response);
     	}
     }

@@ -75,6 +75,8 @@ public class ToutPortletConstants {
     public static final String ERROR_DELETING_TOUT_PREFERENCES = "tout-error-deleting-tout-preferences";
     public static final String ERROR_MISSING_REQUIRED_PARAMETER = "tout-error-missing-required-parameter";
     public static final String ERROR_BAD_PARAMETER_REGEX = "tout-error-bad-pages-regex-value";
+    public static final String ERROR_NO_MATCHING_PAGES = "tout-error-no-matching-pages-found";
+    public static final String ERROR_RETRIEVING_MATCHING_PAGES = "tout-error-retrieving-matching-pages";
     
     public static final String ACTION = "action";
     public static final String ACTION_EDIT = "action-edit";

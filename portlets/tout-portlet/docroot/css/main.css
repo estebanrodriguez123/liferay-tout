@@ -88,6 +88,10 @@ div.tout-buttons {
 	margin-bottom: 15px;
 	margin-top: 10px;
 }
+.pages-panel {
+	max-height: 250px;
+	overflow: auto;
+}
 .btn.check-pages-button {
 	margin-top: -50px;
 }
