@@ -27,7 +27,6 @@
 		<portlet:param name="<%=ToutPortletConstants.JSP_PAGE%>" value="/html/control-panel/add.jsp" />
 		<portlet:param name="<%=ToutPortletConstants.ACTION%>" value="<%=ToutPortletConstants.ACTION_ADD%>"/>
 		<portlet:param name="redirect" value="<%= redirect %>" />
-		<portlet:param name="p_p_isolated" value="1" />
 	</portlet:renderURL>
 
 	<aui:button value="add-toutConfig" onClick="<%=addToutConfigURL %>"/>
