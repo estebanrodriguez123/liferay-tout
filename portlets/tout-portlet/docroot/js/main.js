@@ -83,10 +83,10 @@ AUI.add('toutDisplay', function (A, NAME) {
                 {
                     dialog: {
                         width: 980,
-                        height: 400,
                         centered: true,
                         constrain2view: true,
-                        cssClass: 'tout-content-iframe'
+                        cssClass: 'tout-content-iframe',
+                        resizable: false
                     },
                     xy: ['center', 'center'],
                     id: instance.portletId,
@@ -157,7 +157,6 @@ AUI.add('toutDisplay', function (A, NAME) {
                 if (contentPopUp) {
                     var buttonsDiv = A.one(".tout-buttons");
                     var contentDiv = A.one(".tout-content");
-                    console.info(contentPopUp.get('scrollHeight'));
                     window.parent.setInnerContent(contentPopUp.get('scrollHeight') - BOTTOM_OFFSET, contentDiv, buttonsDiv);
                 }
             });
