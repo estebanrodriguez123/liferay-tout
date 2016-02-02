@@ -1,3 +1,5 @@
+@import "mixins";
+
 .clearfix:after {
     content: ".";
     display: block;
@@ -39,10 +41,12 @@ html.aui-dialog-iframe-root-node {
 
 .tout-buttons .btn {
     width: 30%;
-    float: left;
     margin: 0 8px 0 0;
     padding: 4px 12px;
     font-size: 14px;
+    @include respond-to(phone) {
+      width: 100%;
+    }
 }
 
 .tout-selected-button{
@@ -68,6 +72,7 @@ div.tout-content-iframe .modal-content .dialog-iframe-node{
 
 div.tout-buttons {
     margin: 0 auto;
+    margin-bottom: -20px; /* fix the bottom empty form which is causing overflow */
     width: 70%;
 }
 
