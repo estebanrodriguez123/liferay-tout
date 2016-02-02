@@ -63,7 +63,6 @@
         <aui:button class="btn" cssClass="tout-action-button btn-primary" name="learnMoreButton"
                     value="tout-learn-more" onClick="event.preventDefault();" url="<%= learnMoreURL  %>"/>
     </div>
-
 </div>
 <aui:script use="toutDisplay">
     var tout = new A.Tout({

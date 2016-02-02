@@ -50,7 +50,6 @@ AUI.add('toutDisplay', function (A, NAME) {
                         var target = e.currentTarget;
                         var buttonId = target.getAttribute('id');
                         var resourceURL = target.getAttribute('url');
-                        
                         A.io.request(resourceURL, {
                             method : 'get',
                             dataType : 'json',
@@ -62,7 +61,7 @@ AUI.add('toutDisplay', function (A, NAME) {
                                     }
                                     
                                     if (buttonId == instance.portletNamespace+'learnMoreButton'){
-                                        window.open(instance.learnMoreURL);
+                                        window.open(instance.learnMoreURL, '_blank');
                                     }
                                     
                                     Liferay.fire('closeWindow',{id: instance.portletId});

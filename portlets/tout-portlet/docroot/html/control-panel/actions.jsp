@@ -19,7 +19,6 @@ String toutConfigId = toutConfig.getId();
 
 	<portlet:actionURL name="deleteToutConfig" var="deleteURL">
 		<portlet:param name="<%= ToutPortletConstants.ATTR_TOUT_ID %>" value="<%= String.valueOf(toutConfigId) %>"/>
-		<portlet:param name="redirect" value="<%= PortalUtil.getCurrentURL(renderRequest) %>"/>
 	</portlet:actionURL>
 		
 	<liferay-ui:icon-delete url="<%=deleteURL.toString() %>" />
