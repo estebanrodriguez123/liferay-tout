@@ -153,10 +153,12 @@ AUI.add('toutDisplay', function (A, NAME) {
         setScrollHeight: function() {
             A.on("domready", function(e){
                 var contentPopUp = A.one('.tout-ctn');
+                var BOTTOM_OFFSET = 70;
                 if (contentPopUp) {
                     var buttonsDiv = A.one(".tout-buttons");
                     var contentDiv = A.one(".tout-content");
-                    window.parent.setInnerContent(contentPopUp.get('scrollHeight'), contentDiv, buttonsDiv);
+                    console.info(contentPopUp.get('scrollHeight'));
+                    window.parent.setInnerContent(contentPopUp.get('scrollHeight') - BOTTOM_OFFSET, contentDiv, buttonsDiv);
                 }
             });
         }
