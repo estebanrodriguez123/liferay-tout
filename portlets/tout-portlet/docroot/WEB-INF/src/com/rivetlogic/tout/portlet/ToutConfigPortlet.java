@@ -35,6 +35,7 @@ import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortalUtil;
 import com.liferay.portlet.journal.model.JournalArticle;
 import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
@@ -77,11 +78,14 @@ public class ToutConfigPortlet extends MVCPortlet {
     	List<ToutConfig> toutConfigList = new ArrayList<ToutConfig>();
     	toutConfigList.addAll(toutConfigsSet);
         request.setAttribute(ToutPortletConstants.TOUT_CONFIG_LIST, toutConfigList);
+        request.setAttribute(WebKeys.REDIRECT, PortalUtil.getCurrentCompleteURL(PortalUtil.getHttpServletRequest(request)));
 	    super.doView(request, response);
     }
     
-    public void deleteToutConfig(ActionRequest request, ActionResponse response){
+    public void deleteToutConfig(ActionRequest request, ActionResponse response) throws IOException{
+    	String redirect = ParamUtil.getString(request, WebKeys.REDIRECT);
     	String toutConfigId = ParamUtil.getString(request, ToutPortletConstants.ATTR_TOUT_ID);
+    	
     	if(null == toutConfigId || toutConfigId.isEmpty()){
     		SessionErrors.add(request, String.format(ToutPortletConstants.ERROR_DELETING_TOUT_PREFERENCES, ToutPortletConstants.ATTR_TOUT_ID));
     	}else{
@@ -91,9 +95,10 @@ public class ToutConfigPortlet extends MVCPortlet {
     			SessionErrors.add(request, ToutPortletConstants.ERROR_DELETING_TOUT_PREFERENCES);
     		}
     	}
+    	response.sendRedirect(redirect);
     }
     
-    public void saveToutPreferences(ActionRequest request, ActionResponse response) {
+    public void saveToutPreferences(ActionRequest request, ActionResponse response) throws IOException {
         boolean toutEnabled = ParamUtil.getBoolean(request, ToutPortletConstants.ATTR_TOUT_ENABLED);
         String toutUrl = ParamUtil.getString(request, ToutPortletConstants.ATTR_TOUT_URL);
         int toutDaysBeforeReminder = ParamUtil.getInteger(request, ToutPortletConstants.ATTR_TOUT_DAYS_BEFORE_REMINDER);
@@ -101,13 +106,14 @@ public class ToutConfigPortlet extends MVCPortlet {
         long toutArticleGroupId = ParamUtil.getLong(request, ToutPortletConstants.ATTR_TOUT_ARTICLE_GROUP_ID);
         String toutConfigId = ParamUtil.getString(request, ToutPortletConstants.ATTR_TOUT_ID);
         String pagesRegex = ParamUtil.getString(request, ToutPortletConstants.ATTR_TOUT_PAGES);
+        String redirect = ParamUtil.getString(request, WebKeys.REDIRECT);
         
         try{
         	if(null != pagesRegex)
         		Pattern.compile(pagesRegex.toLowerCase());
         }catch(PatternSyntaxException e){
         	SessionErrors.add(request, ToutPortletConstants.ERROR_BAD_PARAMETER_REGEX);
-        	return;
+        	response.sendRedirect(redirect);
         }
         
         try {
@@ -125,7 +131,7 @@ public class ToutConfigPortlet extends MVCPortlet {
             SessionErrors.add(request, ToutPortletConstants.ERROR_STORING_PREFERENCES);
             logger.error(e);
         }
-        
+        response.sendRedirect(redirect);
     }
 
     @Override

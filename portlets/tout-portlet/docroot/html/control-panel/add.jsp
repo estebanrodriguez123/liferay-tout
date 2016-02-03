@@ -30,7 +30,7 @@ List<Group>  availableGroups = GroupLocalServiceUtil.getGroups(company.getCompan
 %>
 
 <portlet:actionURL name="saveToutPreferences" var="savePreferencesURL">
-	<!--  portlet:param name="redirect" value="<%= currentURL %>"/-->
+	<portlet:param name="<%= WebKeys.REDIRECT %>" value="<%= redirect %>"/>
 	<portlet:param name="<%=ToutPortletConstants.ACTION%>" value="<%=request.getParameter(ToutPortletConstants.ACTION)%>"/>
 	<portlet:param name="<%= ToutPortletConstants.JSP_PAGE %>" value="<%= ToutPortletConstants.TEMPLATE_ADD_TOUT_CONFIG %>" />
 	<portlet:param name="<%= ToutPortletConstants.ATTR_TOUT_ID %>" value="<%= toutConfig.getId() %>" />
@@ -58,7 +58,6 @@ List<Group>  availableGroups = GroupLocalServiceUtil.getGroups(company.getCompan
 />
 <aui:form onSubmit='A.ToutConfig.handleFormSubmit();' name="tout-fm" action="${savePreferencesURL}" method="post">
     <aui:fieldset label="tout-selec-title">
-    
     <aui:input type="hidden" name="<%= ToutPortletConstants.ATTR_TOUT_ID %>" value='<%= toutConfig != null ? toutConfig.getId() : StringPool.BLANK %>'/>
         <div>
             <aui:input type="checkbox" value="<%= toutConfig != null ? toutConfig.isEnabled() : false %>" name="<%=ToutPortletConstants.ATTR_TOUT_ENABLED%>" label="tout-enabled-label"/>
@@ -127,4 +126,7 @@ List<Group>  availableGroups = GroupLocalServiceUtil.getGroups(company.getCompan
     A.one('#${pns}tout-selectArticleButton').on('click', A.ToutConfig.displayArticles, null, '${articleSelectorContentURL}' );
     A.one('#${pns}tout-getPagesMatchingRegexButton').on('click', A.ToutConfig.displayMatchingPages, null, '${portletId}', '<%=ToutPortletConstants.CMD_SHOW_MATCHING_PAGES%>');
     A.all('a.articleSelectorPreviewLink').on('click', A.ToutConfig.articleSelectorPreviewHandler);
+    <% if(toutConfig != null && null != toutConfig.getPagesRegex() && !toutConfig.getPagesRegex().isEmpty()){ %>
+    A.ToutConfig.displayMatchingPages(null, '${portletId}', '<%=ToutPortletConstants.CMD_SHOW_MATCHING_PAGES%>');
+    <%}%>
 </aui:script>

@@ -12,13 +12,14 @@ String toutConfigId = toutConfig.getId();
 		<portlet:param name="<%= ToutPortletConstants.JSP_PAGE %>" value="<%= ToutPortletConstants.TEMPLATE_ADD_TOUT_CONFIG %>" />
 		<portlet:param name="<%= ToutPortletConstants.ATTR_TOUT_ID %>" value="<%= String.valueOf(toutConfigId) %>"/>
 		<portlet:param name="<%= ToutPortletConstants.ACTION %>" value="<%= ToutPortletConstants.ACTION_EDIT %>"/>
-		<portlet:param name="redirect" value="<%= redirect %>"/>
+		<portlet:param name="<%= WebKeys.REDIRECT %>" value="<%= redirect %>"/>
 	</portlet:renderURL>
 
 	<liferay-ui:icon image="edit" url="<%=editURL.toString() %>" />
 
 	<portlet:actionURL name="deleteToutConfig" var="deleteURL">
 		<portlet:param name="<%= ToutPortletConstants.ATTR_TOUT_ID %>" value="<%= String.valueOf(toutConfigId) %>"/>
+		<portlet:param name="<%= WebKeys.REDIRECT %>" value="<%= redirect %>"/>
 	</portlet:actionURL>
 		
 	<liferay-ui:icon-delete url="<%=deleteURL.toString() %>" />
