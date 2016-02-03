@@ -154,11 +154,9 @@ public class ToutConfigUtil {
     	toutConfig.setDaysBeforeReminder(toutDaysBeforeReminder);
     	toutConfigList.remove(toutConfig);
     	toutConfigList.add(toutConfig);
-    	System.out.println(JSONFactoryUtil.serialize(toutConfig));
     	for(ToutConfig toutConfigItem : toutConfigList){
     		jsonArray.put(JSONFactoryUtil.serialize(toutConfigItem));
     	}
-    	System.out.println(jsonArray.toString());
     	preferences.setValue(ToutPortletConstants.TOUT_CONFIG, jsonArray.toString());
         preferences.store();
     }

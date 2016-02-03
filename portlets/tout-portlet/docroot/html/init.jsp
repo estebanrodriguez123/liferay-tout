@@ -66,6 +66,9 @@
 <c:set var="pns" scope="request"><portlet:namespace /></c:set>
 <c:set var="portletId" scope="request"><%= (String) request.getAttribute(WebKeys.PORTLET_ID) %></c:set>
 <%
-String redirect = ParamUtil.getString(request, "redirect");
+String redirect = (String)request.getAttribute(WebKeys.REDIRECT);
+if(null == redirect || redirect.isEmpty()){
+	redirect = ParamUtil.getString(request, WebKeys.REDIRECT);
+}
 String currentURL = PortalUtil.getCurrentURL(request);
 %>

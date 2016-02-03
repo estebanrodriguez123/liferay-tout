@@ -23,10 +23,10 @@
 
 <aui:button-row>
 	<portlet:renderURL var="addToutConfigURL">
-		<portlet:param name="mvcPath" value="/html/control-panel/add.jsp" />
-		<portlet:param name="<%=ToutPortletConstants.JSP_PAGE%>" value="/html/control-panel/add.jsp" />
+		<portlet:param name="mvcPath" value="<%= ToutPortletConstants.TEMPLATE_ADD_TOUT_CONFIG %>" />
+		<portlet:param name="<%=ToutPortletConstants.JSP_PAGE%>" value="<%= ToutPortletConstants.TEMPLATE_ADD_TOUT_CONFIG %>" />
 		<portlet:param name="<%=ToutPortletConstants.ACTION%>" value="<%=ToutPortletConstants.ACTION_ADD%>"/>
-		<portlet:param name="redirect" value="<%= redirect %>" />
+		<portlet:param name="<%= WebKeys.REDIRECT %>" value="<%= redirect %>" />
 	</portlet:renderURL>
 
 	<aui:button value="add-toutConfig" onClick="<%=addToutConfigURL %>"/>
