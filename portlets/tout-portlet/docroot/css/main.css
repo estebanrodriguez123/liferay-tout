@@ -25,6 +25,10 @@ html.aui-dialog-iframe-root-node {
 	overflow:hidden;
 }
 
+body.tout-opened {
+  overflow: hidden !important;
+}
+
 .tout-content {
 	overflow: auto;
 }

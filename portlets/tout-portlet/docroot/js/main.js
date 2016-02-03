@@ -85,7 +85,8 @@ AUI.add('toutDisplay', function (A, NAME) {
                         centered: true,
                         constrain2view: true,
                         cssClass: 'tout-content-iframe',
-                        resizable: false
+                        resizable: false,
+                        destroyOnHide: true
                     },
                     xy: ['center', 'center'],
                     id: instance.portletId,
@@ -93,6 +94,7 @@ AUI.add('toutDisplay', function (A, NAME) {
                     uri: instance.contentURL
         }, function(modal) {
                     instance.modal = modal;
+                    A.one('body').addClass('tout-opened');
                     var closingX = instance.modal.get('boundingBox').one('.close');
                     if(instance.modal.get('bodyContent').size()>0){
                         closingX.on('click', function()
@@ -101,6 +103,9 @@ AUI.add('toutDisplay', function (A, NAME) {
                             A.one('#'+instance.portletNamespace+'remindLaterButton').simulate("click");
                         });
                     }
+                    instance.modal.on('destroy', function() {
+                        A.one('body').removeClass('tout-opened');
+                    });
                 }
             );
         },
