@@ -171,13 +171,20 @@ public class ToutPortlet extends MVCPortlet {
     	try{
 	    	Set<ToutConfig>toutConfigList = ToutConfigUtil.getToutConfigSet();
 	    	if(null != toutConfigList){
+	    		long userId = themeDisplay.getUser().getUserId();
 		    	for(ToutConfig toutConfigItem : toutConfigList){
 		    		Group currentGroup = GroupLocalServiceUtil.getGroup(themeDisplay.getScopeGroupId());
+		            ToutUserStatusPK pk = new ToutUserStatusPK(userId, toutConfigItem.getId());
+		            ToutUserStatus userStatus = getToutUserStatus(pk);
+		            JournalArticle toutArticle = JournalArticleLocalServiceUtil.getArticle(toutConfigItem.getArticleGroupId(), toutConfigItem.getArticleId());
 		    		long groupId = (currentGroup.isRoot() ? currentGroup.getGroupId() : currentGroup.getParentGroupId());
 		    		if (toutConfigItem != null && toutConfigItem.isEnabledOnSite(groupId, layout.getNameCurrentValue()) && themeDisplay.isSignedIn()
 		                    && !layout.getGroup().getName().equals(GroupConstants.CONTROL_PANEL)) {
-		    			toutConfig = toutConfigItem;
-		    			break;
+		    			if ((userStatus.getArticleId() != toutArticle.getId()) || (!userStatus.getToutDismissed() && !userStatus.getToutSeen()
+		                        && userStatus.getReminderDate() != null && new Date().after(userStatus.getReminderDate()))){
+			    			toutConfig = toutConfigItem;
+			    			break;
+		    			}
 		    		}
 		    	}
 	    	}
@@ -188,32 +195,12 @@ public class ToutPortlet extends MVCPortlet {
     }
     
     private boolean setToutDialogShowing(PortletRequest request, ToutConfig tout) {
-        if(null == tout)
+        if(null == tout){
+        	request.setAttribute(ToutPortletConstants.ATTR_TOUT_SHOW, false);
         	return false;
-        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-        boolean display = false;
-        try {
-            JournalArticle toutArticle = JournalArticleLocalServiceUtil.getArticle(tout.getArticleGroupId(),
-                    tout.getArticleId());
-            ToutUserStatusPK pk = new ToutUserStatusPK(themeDisplay.getUser().getUserId(), tout.getId());
-            ToutUserStatus userStatus = getToutUserStatus(pk);
-            
-            // For user, we keep the ID (not articleId) because it
-            // correspond to (articleId-version)
-            if (userStatus.getArticleId() != toutArticle.getId()) {
-                display = true;
-            } else if (!userStatus.getToutDismissed() && !userStatus.getToutSeen()
-                    && userStatus.getReminderDate() != null && new Date().after(userStatus.getReminderDate())) {
-                display = true;
-            }
-            request.setAttribute(ToutPortletConstants.ATTR_TOUT_SHOW, display);
-        	
-        } catch (Exception e) {
-            logger.error(e);
-            request.setAttribute(ToutPortletConstants.ATTR_TOUT_SHOW, false);
         }
-        
-        return display;
+        request.setAttribute(ToutPortletConstants.ATTR_TOUT_SHOW, true);
+        return true;
     }
     
     private void setArticleToDisplay(PortletRequest request, ToutConfig tout) {
