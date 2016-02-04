@@ -70,7 +70,12 @@ body.tout-opened {
     width: 50%;
 }
 
+div.tout-content-iframe {
+  max-width: 1024px;
+}
+
 div.tout-content-iframe .modal-content .dialog-iframe-node{
+  max-width: 1024px;
 	overflow: hidden;
 }
 

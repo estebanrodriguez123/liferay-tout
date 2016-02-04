@@ -30,7 +30,7 @@ AUI.add('toutDisplay', function (A, NAME) {
             var contentNode = this.get('container');
             this.portletId = this.get('portletId');
             this.portletNamespace = this.get('portletNamespace');
-            this.windowTitle = (this.get('windowTitle')!="")?this.get('windowTitle'):Liferay.Language.get('tout');
+            this.windowTitle = (this.get('windowTitle')!="")?this.get('windowTitle'): '&nbsp;';
             this.contentURL = this.get('contentURL');
             this.learnMoreURL = this.get('learnMoreURL');
             if (this.get('showToutPopUp')) {
@@ -81,7 +81,6 @@ AUI.add('toutDisplay', function (A, NAME) {
             Liferay.Util.openWindow(
                 {
                     dialog: {
-                        width: 980,
                         centered: true,
                         constrain2view: true,
                         cssClass: 'tout-content-iframe',
@@ -113,12 +112,13 @@ AUI.add('toutDisplay', function (A, NAME) {
         /*Resizes the pop up when the content changes*/
         setInnerContent : function() {
             var instance = this;
-            Liferay.provide(window, 'setInnerContent', function(heigth, contentDiv, buttonsDiv) {
+            Liferay.provide(window, 'setInnerContent', function(heigth, contentDiv, buttonsDiv, body) {
                 var dialog = {
                     bodyNode: A.one(".modal:visible"),
                     contentNode: contentDiv,
                     buttonsNode: buttonsDiv,
-                    headerNode: A.one(".modal-header")
+                    headerNode: A.one(".modal-header"),
+                    body: body
                 };
                 instance.setContentHeight(dialog, heigth);
             });
@@ -126,42 +126,58 @@ AUI.add('toutDisplay', function (A, NAME) {
 
         setContentHeight: function(self, height) {
             var instance = this;
-            var visibleAreaHeight = A.one('body').get('winHeight');
+            var visibleAreaHeight = self.body.get('winHeight');
             var gap_size = 80;
-            var padding = 70;
-            if (Liferay.Browser.isFirefox()) {
-                padding = 20;
-            }
+            var padding = 30;
+            // if (Liferay.Browser.isFirefox()) {
+            //     padding = 20;
+            // }
             var buttonBarHeight = self.buttonsNode.height(); 
             var headerHeight = self.headerNode.height(); 
 
-            var cHeight = (height + buttonBarHeight + headerHeight + padding);
-            cHeight = (cHeight > (visibleAreaHeight - gap_size))
-                ? (visibleAreaHeight  - gap_size)
-                : cHeight;
-            instance.modal.set('height', cHeight);
-            instance.modal.bodyNode.get('firstChild').set('height', cHeight);
-            instance.modal.align();
+            //var cHeight = (height + buttonBarHeight + headerHeight + padding);
+            //cHeight = (cHeight > (visibleAreaHeight - gap_size))
+                // ? (visibleAreaHeight  - gap_size)
+                // : cHeight;
+            //instance.modal.set('height', cHeight);
+            //instance.modal.bodyNode.get('firstChild').set('height', cHeight);
+            
 
             if(self.contentNode){
-                var maxContentHeight = cHeight - headerHeight - buttonBarHeight - padding;
-                if (Liferay.Browser.isFirefox()) {
-                    maxContentHeight = maxContentHeight - padding;
-                }
+                var maxContentHeight = visibleAreaHeight - headerHeight - buttonBarHeight - padding;
+                // if (Liferay.Browser.isFirefox()) {
+                //     maxContentHeight = maxContentHeight - padding;
+                // }
+                self.contentNode.setStyle('height', '');
+                instance.modal.set('height', A.one('body').get('winHeight'));
                 if (self.contentNode.height() > maxContentHeight){
                     self.contentNode.setStyle('height',maxContentHeight+'px');
+                } else {
+                    instance.modal.set('height', self.contentNode.height() + headerHeight + buttonBarHeight + padding + gap_size);
                 }
+                instance.modal.align();
             }
         },
 
         setScrollHeight: function() {
             A.on("domready", function(e){
                 var contentPopUp = A.one('.tout-ctn');
-                var BOTTOM_OFFSET = 70;
                 if (contentPopUp) {
                     var buttonsDiv = A.one(".tout-buttons");
                     var contentDiv = A.one(".tout-content");
-                    window.parent.setInnerContent(contentPopUp.get('scrollHeight') - BOTTOM_OFFSET, contentDiv, buttonsDiv);
+                    window.parent.setInnerContent(contentPopUp.get('scrollHeight'), contentDiv, buttonsDiv, A.one('body'));
+                    var t = null;
+                    var resize = function() {
+                        window.parent.setInnerContent(contentPopUp.get('scrollHeight'), contentDiv, buttonsDiv, A.one('body'));
+                        setTimeout(function() {
+                            A.once('resize', function() {
+                                resize();
+                            });
+                        }, 50);
+                    };
+                    A.once('resize', function() {
+                        resize();
+                    });
                 }
             });
         }
