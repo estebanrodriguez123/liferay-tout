@@ -128,7 +128,7 @@ AUI.add('toutDisplay', function (A, NAME) {
         setContentHeight: function(self, height) {
             var instance = this;
             var visibleAreaHeight = self.body.get('winHeight');
-            //var gap_size = 80;
+            var gap_size = 80;
             var padding = 30;
             // if (Liferay.Browser.isFirefox()) {
             //     padding = 20;
@@ -142,16 +142,21 @@ AUI.add('toutDisplay', function (A, NAME) {
                 // : cHeight;
             //instance.modal.set('height', cHeight);
             //instance.modal.bodyNode.get('firstChild').set('height', cHeight);
-            instance.modal.align();
+            
 
             if(self.contentNode){
                 var maxContentHeight = visibleAreaHeight - headerHeight - buttonBarHeight - padding;
                 // if (Liferay.Browser.isFirefox()) {
                 //     maxContentHeight = maxContentHeight - padding;
                 // }
-                //if (self.contentNode.height() > maxContentHeight){
-                self.contentNode.setStyle('height',maxContentHeight+'px');
-                //}
+                self.contentNode.setStyle('height', '');
+                instance.modal.set('height', A.one('body').get('winHeight'));
+                if (self.contentNode.height() > maxContentHeight){
+                    self.contentNode.setStyle('height',maxContentHeight+'px');
+                } else {
+                    instance.modal.set('height', self.contentNode.height() + headerHeight + buttonBarHeight + padding + gap_size);
+                }
+                instance.modal.align();
             }
         },
 
