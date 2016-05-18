@@ -60,7 +60,7 @@ List<Group>  availableGroups = GroupLocalServiceUtil.getGroups(company.getCompan
     <aui:fieldset label="tout-selec-title">
     <aui:input type="hidden" name="<%= ToutPortletConstants.ATTR_TOUT_ID %>" value='<%= toutConfig != null ? toutConfig.getId() : StringPool.BLANK %>'/>
         <div>
-            <aui:input type="checkbox" value="<%= toutConfig != null ? toutConfig.isEnabled() : false %>" name="<%=ToutPortletConstants.ATTR_TOUT_ENABLED%>" label="tout-enabled-label"/>
+            <aui:input type="checkbox" value="<%= toutConfig != null ? toutConfig.isEnabled() : false %>" name="<%=ToutPortletConstants.ATTR_TOUT_ENABLED%>" label="tout-enabled-label" cssClass="enableDisableToutConfig"/>
         </div>
         <liferay-ui:panel cssClass="tout-control-panel" collapsible="false" extended="false" id="toutValuesPanel" persistState="true" title="">
 
