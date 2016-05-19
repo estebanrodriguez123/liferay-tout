@@ -181,7 +181,7 @@ AUI.add('tout-config', function(A, NAME) {
 
     // ------------- CONTROL PANEL FIELDS -------------
     ns.setFieldsAvailability = function() {
-        var checkboxNode = A.one("input[type=checkbox]");
+        var checkboxNode = A.one("input.enableDisableToutConfig[type=checkbox]");
         if (checkboxNode) {
             var checkboxid = checkboxNode.getAttribute("id");
             checkboxid = checkboxid.replace("Checkbox", "");
